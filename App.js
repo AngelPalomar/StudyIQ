@@ -1,23 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import estilosSass from './styles/Start.scss';
+
+import Login from './src/screens/Login';
+import Inicio from './src/screens/Inicio';
+import Registro from './src/screens/Registro';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from './src/screens/private/Home';
+const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Study IQ xd</Text>
-      <StatusBar style="auto" />
-      <Text style={estilosSass.xd}> si funciona los estilos de sass</Text>
-    </View>
-  );
-}
+	/**
+	 * Creamos en App.js un enrutador de las pantallas navegables
+	 * de la app por medio d eun Screen
+	 *
+	 */
+	return (
+		<NavigationContainer>
+			<Stack.Navigator initialRouteName='Inicio'>
+				{/** 3.- Indicamos todas las Screens relacionadas */}
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+				<Stack.Screen
+					name='Login'
+					component={Login}
+				/>
+
+				<Stack.Screen
+					name='Inicio'
+					component={Inicio}
+				/>
+
+				<Stack.Screen
+					name='Registro'
+					component={Registro}
+				/>
+
+				<Stack.Screen
+					name='Home'
+					component={Home}
+				/>
+			</Stack.Navigator>
+		</NavigationContainer>
+	);
+}
