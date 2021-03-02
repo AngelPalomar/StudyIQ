@@ -1,6 +1,7 @@
 import React from 'react';
-import { Alert, Button, Text, View } from 'react-native';
+import { Alert, Button, Text, View, TouchableHighlight,} from 'react-native';
 import firebase from './../database/firebase';
+import styles from '../../styles/start.scss';
 
 /** props es una referencia a las variables, const, obj, componentes, etc
  * que comparte el componente padre conmigo
@@ -35,34 +36,32 @@ const Inicio = (props) => {
 
 	return (
 		<View
-			style={{
-				flex: 1,
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}
+			style  = {styles.bg}
 		>
-			<Button
-				title='Login'
+			
+			<TouchableHighlight title='Login'
+			style = {styles.button}
 				onPress={() => {
-					/** PAra navegar entre ventanas
-					 * usamos la propiedad navigation y la funcion
-					 * navigate('_SOBRENOMBRE_');
-					 */
 					props.navigation.navigate('Login');
-				}}
-			/>
+				}}>
+				<Text style = {styles.text__color}>Login touch</Text>
+			</TouchableHighlight>
 
-			<Button
-				title='Registro'
+			<TouchableHighlight title='Registro'
+			style = {styles.button}
 				onPress={() => {
 					props.navigation.navigate('Registro');
-				}}
-			/>
+				}}>
+				<Text style = {styles.text__color}>Registro touch</Text>
+			</TouchableHighlight>
 
-			<Button
-				title='Insertar en firestore'
-				onPress={crearUsuarioFS}
-			/>
+			<TouchableHighlight title='Firestore'
+			style = {styles.button}
+				onPress={crearUsuarioFS}>
+				<Text style = {styles.text__color}>Insertar firestore</Text>
+			</TouchableHighlight>
+
+			
 		</View>
 	);
 };

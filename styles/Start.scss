@@ -1,6 +1,36 @@
-.blue {
-    color:blue;
-  }
-  .xd{
-      color:rebeccapurple;
-  }
+// --------- importación ---------- //
+@import "_base.scss";
+
+
+// ---- code ---- //
+.bg{
+    //background-color: red;
+    align-items: center;
+    justify-content: center;
+    height: 350px;
+    width: 250px;
+    margin: auto;
+    border : $black-200;
+    border-radius: 4px;
+}
+
+.button {
+    background-color: $blue-semi;
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+    padding-left: 16px;
+    padding-right: 16px;
+    margin: 16px;
+    border-radius: 8px;
+    max-width: 150px;
+}
+
+.text__color{
+    color: $white;
+    font-size: 16px;
+}
+
+.xd{
+    background-color:rebeccapurple;
+}
+

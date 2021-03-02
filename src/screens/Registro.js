@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import firebase from './../database/firebase';
 import {
-	ActivityIndicator, Alert, Button, Image, Text, TextInput, View, FlatList, RefreshControl, Platform, Picker
+	ActivityIndicator, Alert, Button, Image, Text, TextInput, View, FlatList, RefreshControl, Platform, Picker, TouchableHighlight
 } from 'react-native';
 import estilos from '../styles/estilos';
 import Icon from 'react-native-vector-icons/Feather';
 import DropDownPicker from 'react-native-dropdown-picker';
 import get_error from '../helpers/errores_es_mx';
+import styles from '../../styles/registro.scss';
 
 const Registro = (props) => {
 
@@ -184,14 +185,14 @@ const Registro = (props) => {
 	}
 	return (
 		//vista del app
-		<View style={{ flex: 1, }}>
-			<Image
+		<View style={styles.bg}>
+			{/* <Image
 				source={require('./../../assets/images/registro.png')}
-				style={estilos.imgLogin}
-			/>
-			<Text style={estilos.titulo}>Registro</Text>
+				style = {styles.imagen}
+			/> */}
+			<Text style={styles.titulo}>Crea tu cuenta</Text>
 
-			<Text style={estilos.mensaje2}>* Campos requeridos </Text>
+			<Text style={styles.message}>* Campos requeridos </Text>
 
 			<TextInput
 				placeholder='Nombre(s)*'
@@ -202,31 +203,17 @@ const Registro = (props) => {
 				value={inputs.nombres}
 				editable={tiHab}
 			/>
-
-			<View style={estilos.row}>
-				<View style={estilos.col}>
-					<TextInput
-						placeholder='Apellido paterno*'
-						keyboardType='default'
-						maxLength={23}
-						style={estilos.input}
-						onChangeText={value => { setInputs({ ...inputs, apellidoP: value }) }}
-						value={inputs.apellidoP}
-						editable={tiHab}
-					/>
-				</View>
-				<View style={estilos.col}>
-					<TextInput
-						placeholder='Apellido materno'
-						keyboardType='default'
-						maxLength={23}
-						style={estilos.input}
-						onChangeText={value => { setInputs({ ...inputs, apellidoM: value }) }}
-						value={inputs.apellidoM}
-						editable={tiHab}
-					/>
-				</View>
-			</View>
+	
+			<TextInput
+				placeholder='Apellidos*'
+				keyboardType='default'
+				maxLength={23}
+				style={estilos.input}
+				onChangeText={value => { setInputs({ ...inputs, apellidoP: value }) }}
+				value={inputs.apellidoP}
+				editable={tiHab}
+			/>
+		
 
 			<TextInput
 				placeholder='Email*'
@@ -249,6 +236,8 @@ const Registro = (props) => {
 				editable={tiHab}
 			/>
 
+			<View style={styles.space}></View>
+
 			<View
 				style={{
 					...(Platform.OS !== 'android' && {
@@ -259,28 +248,20 @@ const Registro = (props) => {
 				<DropDownPicker
 					zIndex={1001}
 					items={getPaisesList()}
-					containerStyle={{ height: 40 }}
-					style={{ backgroundColor: '#fafafa' }}
-					itemStyle={{
-						justifyContent: 'flex-end',
-					}}
+					containerStyle={styles.dropdown}
+					style={styles.dropdown__style}
+					itemStyle={styles.itemstyle}
 					dropDownStyle={{ backgroundColor: '#fafafa' }}
 					onChangeItem={item => setInputs({ ...inputs, pais: item.value })}
 					placeholder="Selecciona un país"
-					margin='10'
 				/>
 				<DropDownPicker
 					zIndex={1001}
 					items={[{ label: 'Maestro', value: 'Maestro' }, { label: 'Estudiante', value: 'Estudiante' }]}
 					containerStyle={{ height: 40 }}
-					style={{
-						backgroundColor: '#fafafa',
-						paddingHorizontal: 10,
-						paddingVertical: 5,
-					}}
-					itemStyle={{
-						justifyContent: 'flex-end',
-					}}
+					containerStyle={styles.dropdown}
+					style={styles.dropdown__style}
+					itemStyle={styles.itemstyle}
 					dropDownStyle={{ backgroundColor: '#fafafa' }}
 					onChangeItem={item => setInputs({ ...inputs, tipoUsuario: item.value })}
 					placeholder="Selecciona una opcion"
@@ -293,16 +274,16 @@ const Registro = (props) => {
 					{ label: 'Primaria', value: 'Primaria' },
 					{ label: 'Otro', value: 'Otro' }]
 					}
-					containerStyle={{ height: 40 }}
-					style={{ backgroundColor: '#fafafa' }}
-					itemStyle={{
-						justifyContent: 'flex-end',
-					}}
+					containerStyle={styles.dropdown}
+					itemStyle={styles.itemstyle}
+					style={styles.dropdown__style}
 					dropDownStyle={{ backgroundColor: '#fafafa' }}
 					onChangeItem={item => setInputs({ ...inputs, gradoEscolar: item.value })}
 					placeholder="Selecciona el grado de estudios escolares"
 				/>
 			</View>
+
+			<View style={styles.space}></View>
 
 			<View style={{ zIndex: 100, overflow: 'hidden', }}>
 				<ActivityIndicator
@@ -311,14 +292,26 @@ const Registro = (props) => {
 					style={{ display: aiVisible ? 'flex' : 'none' }}
 				/>
 
-				<View style={{ margin: 15, display: btnVisible ? 'flex' : 'none' }}>
-					<Button title='Registrarse' onPress={validaDatos} />
-				</View>
-				<Button
-					title='¿Ya tienes una cuenta?, inicia sesión aquí'
-					onPress={() => {
+				
+				<TouchableHighlight style = {styles.button__main} onPress={validaDatos}>
+					<Text style = {styles.text__color}>Registrarse</Text>
+				</TouchableHighlight >
+			
+
+				<View style = {estilos.bottom }>
+				
+				<Text> ¿Ya tienes cuenta?</Text>
+
+				<TouchableHighlight style = {styles.button} onPress={() => {
 						props.navigation.navigate('Login');
-					}}/>
+					}}>
+
+				<Text style = {styles.text__color_two}>inicia sesión aquí</Text>
+
+				</TouchableHighlight > 
+
+				</View>
+				
 			</View>
 
 		</View>

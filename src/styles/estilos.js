@@ -13,21 +13,12 @@ export default StyleSheet.create({
 		marginVertical: 20,
 	},
 	input: {
-		paddingHorizontal: 10,
 		paddingVertical: 5,
-		width: '95%',
-		borderWidth: 2,
-		borderColor: '#585858',
+		width: '100%',
+		borderBottomWidth: 1,
+		borderColor: '#9a9ebc',
 		fontSize: 16,
-		borderRadius: 10,
 		marginVertical: 10,
-	},
-	imgLogin: {
-		height: 100,
-		width: 100,
-		resizeMode: 'contain',
-		backgroundColor: '#585858',
-		borderRadius: 200,
 	},
 	contenedorImgCircular: {
 		width: 200,
@@ -41,5 +32,13 @@ export default StyleSheet.create({
 	},
 	col: {
 		flex: 1,
+	},
+	bottom: {
+		flexDirection: 'row',
+		//backgroundColor: 'blue',
+		width: '80%',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		alignSelf: 'center'
 	},
 });

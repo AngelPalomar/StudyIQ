@@ -1,0 +1,45 @@
+// Mixin Repsonsive
+@mixin from($size) {
+    @media screen and (min-width: $size) {
+      @content;
+    }
+  }
+  
+  @mixin to($size) {
+    @media screen and (max-width: $size) {
+      @content;
+    }
+  }
+  
+  
+// Breakpoints
+$s   : 360px;
+$m   : 640px;
+$l   : 1024px;
+$xl  : 1200px;
+$full: 90%;
+
+
+//colores
+$blue-dark : #1E2749;
+$blue-semi : #273469;
+$grey-main : #E4D9FF;
+$white-app : #FAFAFF;
+$black-app : #30343F;
+$white     : #ffffff;
+$black     : #000000;
+
+$black-900: #0b0d16;
+$black-800: #0e111c;
+$black-700: #101422;
+$black-600: #181e32;
+$black-500: #1b2138;
+$black-400: #5d617c;
+$black-300: #9a9ebc;
+$black-200: #dcdfff;
+$black-100: #f6f8ff;
+
+//tipografia
+$font-title : 'Roboto', sans-serif;
+$font-texto : 'Roboto', sans-serif;
+$font-tiny  : 'Lato', sans-serif;
