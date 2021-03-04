@@ -18,7 +18,7 @@ const Sidebar = (props) => {
 			}}
 		>
 			<ImageBackground
-				source={require('./../../assets/images/fondosidebar.jpg')}
+				source={require('./../../assets/images/sidebar4.jpg')}
 				style={{
 					width: '100%',
 					paddingBottom: 30,

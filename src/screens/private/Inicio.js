@@ -1,24 +1,38 @@
 import { useFocusEffect } from '@react-navigation/core';
-import React from 'react';
-import { Text, View } from 'react-native';
-
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, Text, View, TouchableOpacity, Image } from 'react-native';
+import Snackbar from 'react-native-snackbar-component';
+import firebase from './../../database/firebase';
+import { SIZES, COLORS, FONTS } from '../../../styles/constants';
 const Inicio = (props) => {
-	/*
-    Efecto qu actualice el título del Stack Navigator  
-    desde los componentes Drawer Hijos
-    Esto se tiene que actualizar cada vez aue cambiamos de Drawer.Screnn
-     */
+	const [snack, setSnack] = useState(false);
 	useFocusEffect(() => {
-		//Modificamos las opciones del HEader del Stack (padre)
 		props.navigation.dangerouslyGetParent().setOptions({
 			title: 'Inicio',
 		});
 	});
+	useEffect(() => {
+
+		const usuarioFirebase = firebase.auth.currentUser;
+		if (!usuarioFirebase.emailVerified) {
+			setSnack(true);
+		}
+	}, []);
 
 	return (
-		<View>
-			<Text>Inicio.js</Text>
-		</View>
+		<SafeAreaView style={{ flex: 1 }}>
+	
+			<Snackbar
+				visible={snack}
+				textMessage='Hola Snack'
+				backgroundColor='#dc3545'
+				textMessage='Cuenta sin verificar'
+				actionText='Ok'
+				actionHandler={() => {
+					setSnack(false);
+				}}
+			/>
+		</SafeAreaView>
 	);
 };
 

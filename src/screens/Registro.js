@@ -8,20 +8,19 @@ import Icon from 'react-native-vector-icons/Feather';
 import DropDownPicker from 'react-native-dropdown-picker';
 import get_error from '../helpers/errores_es_mx';
 import styles from '../../styles/registro.scss';
-
 const Registro = (props) => {
 
 	//Creamos un componente que permita crear un documento usuario en la colección usuarios
 
 	const [inputs, setInputs] = useState({
 		nombres: '',
-		apellidoP: '',
-		apellidoM: '',
+		apellidos: '',
 		email: '',
 		pin: '',
 		pais: '',
 		tipoUsuario: '',
-		gradoEscolar: ''
+		gradoEscolar: '',
+		activo:true,
 
 	});
 
@@ -71,31 +70,18 @@ const Registro = (props) => {
 			);
 			return;
 		}
-		//Validamos apellidoP 
+		//Validamos apellidos 
 
-		if (inputs.apellidoP.length == null || inputs.apellidoP.length >= 35) {
+		if (inputs.apellidos.length == null || inputs.apellidos.length >= 55) {
 			Alert.alert(
 				'ERROR', 'El apellido paterno es un campo obligatorio',
 				[
 					{
 						text: 'Agregar',
-						onPress: () => { setInputs({ ...inputs, ['apellidoP']: '' }); },
+						onPress: () => { setInputs({ ...inputs, ['apellidos']: '' }); },
 					},
 				],
 				{ cancelable: false }); return;
-		}
-		//Validamos apellidoM
-
-		if (inputs.apellidoM.length == null || inputs.apellidoM.length >= 35) {
-			Alert.alert(
-				'ERROR', 'El apellido materno es un campo obligatorio',
-				[
-					{
-						text: 'Agregar',
-						onPress: () => { setInputs({ ...inputs, ['apellidoM']: '' }); },
-					},
-				], { cancelable: false });
-			return;
 		}
 		//Validamos pin que sea de 8 
 
@@ -150,7 +136,7 @@ const Registro = (props) => {
 				);
 			});
 			//Agregamos el usuario en la colecion usuarios
-			const usuarioFS = await firebase.db.collection('usuarios').add(inputs);
+			const usuarioFS = await firebase.db.collection('usuarios').add({...inputs,authId:usuarioFirebase.user.uid});
 			Alert.alert(
 				'Se registro correctamente a ', `${inputs.nombres},¿Desea ir al login?`,
 				[{ text: 'Si', onPress: () => { props.navigation.navigate('Login') } },
@@ -172,7 +158,6 @@ const Registro = (props) => {
 			setAiVisible(false);
 			setBtnVisible(true);
 			setTiHab(true);
-			setSwtch(false);
 		}, 5000);
 	};
 	//Funcion para select de paises
@@ -209,8 +194,8 @@ const Registro = (props) => {
 				keyboardType='default'
 				maxLength={23}
 				style={estilos.input}
-				onChangeText={value => { setInputs({ ...inputs, apellidoP: value }) }}
-				value={inputs.apellidoP}
+				onChangeText={value => { setInputs({ ...inputs, apellidos: value }) }}
+				value={inputs.apellidos}
 				editable={tiHab}
 			/>
 		
@@ -218,7 +203,7 @@ const Registro = (props) => {
 			<TextInput
 				placeholder='Email*'
 				keyboardType='email-address'
-				maxLength={55}
+				maxLength={150}
 				style={estilos.input}
 				onChangeText={value => { setInputs({ ...inputs, email: value }) }}
 				value={inputs.email}
@@ -227,7 +212,7 @@ const Registro = (props) => {
 
 			<TextInput
 				placeholder='Pin (8 dígitos)*'
-				keyboardType='number-pad'
+				keyboardType='default'
 				secureTextEntry
 				maxLength={8}
 				style={estilos.input}
