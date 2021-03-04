@@ -1,5 +1,6 @@
-import React from 'react';
+import React,{ useEffect, useState } from 'react';
 import { ImageBackground, Text, View } from 'react-native';
+import firebase from './../database/firebase';
 import {
 	DrawerContentScrollView,
 	DrawerItem,
@@ -9,8 +10,36 @@ import {
 	AntDesign,
 	MaterialIcons,
 } from '@expo/vector-icons';
-
 const Sidebar = (props) => {
+	const [usuarioFirebase, setUsuarioFirebase] = useState(
+		{}
+	);
+	const [docUsuario, setDocUsuario] = useState({});
+	useEffect(() => {
+		/* tomamos los datos del usuario que ha iniciado sesión */
+		setUsuarioFirebase(firebase.auth.currentUser);
+
+		/* invocamos la consulta */
+		getDocUsuario(firebase.auth.currentUser.uid);
+	}, []);
+
+	const getDocUsuario = async (uid) => {
+		try {
+			
+			const query = await firebase.db.collection('usuarios').where('authId', '==', uid).get();
+			if (!query.empty) {
+				const snapshot = query.docs[0];
+
+				setDocUsuario({
+					...snapshot.data(),
+					id: snapshot.id,
+				});
+			}
+		} catch (e) {
+			console.warn(e.toString());
+		}
+	};
+
 	return (
 		<View
 			style={{
@@ -33,9 +62,10 @@ const Sidebar = (props) => {
 						fontWeight: '500',
 						textDecorationLine: 'underline',
 						color: '#fff',
+						fontWeight: 'bold'
 					}}
 				>
-					Hola de nuevo
+					StudyIQ
 				</Text>
 
 				<View style={{ flexDirection: 'row' }}>
@@ -71,18 +101,24 @@ const Sidebar = (props) => {
 									fontSize: 16,
 									marginBottom: 5,
 									color: '#fff',
+									fontWeight: 'bold'
 								}}
 							>
-								Raúl Zavaleta
+								{docUsuario.nombres}{' '}{docUsuario.apellidos}
 							</Text>
-							<Text style={{ color: '#ccc' }}>
-								0 Rentas
+							<Text 
+							style={{
+								fontSize: 13,
+								marginBottom: 5,
+								color: '#fff',
+								fontWeight: 'bold'
+							}}>
+							{docUsuario.email}
 							</Text>
 						</View>
 					</View>
 				</View>
 			</ImageBackground>
-
 			<DrawerContentScrollView {...props}>
 				<DrawerItem
 					icon={() => (
