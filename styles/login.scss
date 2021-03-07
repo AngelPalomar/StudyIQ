@@ -1,0 +1,50 @@
+// --------- importación ---------- //
+@import "_base.scss";
+
+// ---- code ---- //
+.bg{
+    // align-items: center;
+    //justify-content: center;
+    height: 600px;
+    width: 300px;
+    margin: auto;
+    padding-top: 24px;
+    //background-color: red;
+}
+
+.title{
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    padding-bottom: 16px;
+}
+
+.button__main {
+    background-color: $blue-semi;
+    padding-top: 8px; 
+    padding-bottom: 8px; 
+    padding-left: 8px;
+    padding-right: 8px;
+    min-width: 120px;
+    border-radius: 8px;
+    max-width: 300px;
+    align-self: center;
+    margin-bottom: 16px;
+    margin-top: 24px;
+}
+
+
+.text__color{
+    color: $white;
+    font-size: 13px;
+    align-self: center;
+
+    &_two{
+        color: $blue-semi;
+        font-weight: 700;
+    }
+}
+
+.itemstyle{
+    justify-content: flex-start;
+}

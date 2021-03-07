@@ -41,4 +41,12 @@ export default StyleSheet.create({
 		alignItems: 'center',
 		alignSelf: 'center'
 	},
+	bottom2:{
+		flexDirection: 'row',
+		//backgroundColor: 'blue',
+		width: '75%',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		alignSelf: 'center'
+	},
 });

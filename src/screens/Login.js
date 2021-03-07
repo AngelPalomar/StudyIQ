@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Button, Image, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, Image, Text, TextInput, View, TouchableHighlight } from 'react-native';
 import firebase from './../database/firebase';
 //Errores traducidos MY_CORE
 import get_error from '../helpers/errores_es_mx';
+import styles from '../../styles/login.scss';
+import estilos from '../styles/estilos';
 const Login = (props) => {
 	const [docUsuario, setDocUsuario] = useState({});
 	const [email, setEmail] = useState('2020367017@uteq.edu.mx');
@@ -138,14 +140,11 @@ const Login = (props) => {
 	};
 	return (
 		<View
-			style={{
-				flex: 1,
-				alignItems: 'center',
-				justifyContent: 'center',
-			}}
+			style={styles.bg}
 		>
-			<Text>Iniciar sesión</Text>
+			<Text style = {styles.title}>Inicia sesión a StudyIQ</Text>
 			<TextInput
+				style = {estilos.input}
 				placeholder='Correo electronico'
 				keyboardType='default'
 				maxLength={150}
@@ -154,6 +153,7 @@ const Login = (props) => {
 				editable={tiHab}
 			/>
 			<TextInput
+				style = {estilos.input}
 				placeholder='Pin (8 dígitos)'
 				keyboardType='default'
 				secureTextEntry
@@ -168,14 +168,27 @@ const Login = (props) => {
 				style={{ display: aiVisible ? 'flex' : 'none', }} />
 			<View
 				style={{ display: btnVisible ? 'flex' : 'none', }}>
-				<Button
-					title='Continuar'
-					onPress={validaLogin}
-				/>
+
+				<TouchableHighlight onPress={validaLogin} style = {styles.button__main}>
+					<Text style = {styles.text__color}>
+						Continuar
+					</Text>
+				</TouchableHighlight>
 			</View>
-			<Button
-				title='¿No tienes una cuenta?, registrate aquí'
-				onPress={() => { props.navigation.navigate('Registro'); }} />
+
+			
+			<View style = {estilos.bottom2 }>
+				
+				<Text> ¿No tienes cuenta?</Text>
+
+				<TouchableHighlight style = {styles.button} onPress={() => { props.navigation.navigate('Registro'); }}>
+
+				<Text style = {styles.text__color_two}>Registrate aquí</Text>
+
+				</TouchableHighlight > 
+
+			</View>
+				
 		</View>
 	);
 };
