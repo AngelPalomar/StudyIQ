@@ -48,8 +48,8 @@ const Inicio = (props) => {
 				initialRouteName='Catalogo'
 				tabBarOptions={{
 					showLabel: false,
-					activeBackgroundColor: '#282828',
-					style: { backgroundColor: '#000' },
+					activeBackgroundColor: '#CFD9E0',
+					style: { backgroundColor: '#fff' },
 				}}
 			>
 				<Tab.Screen
@@ -57,24 +57,34 @@ const Inicio = (props) => {
 					component={Catalogo}
 					options={{
 						tabBarIcon: () => (
-							<FontAwesome5
-								name='user-edit'
-								size={30}
-								color='#fff'
-							/>
+						<Image
+						source={require('../../../assets/images/home.png')}
+						style={{
+							width: 45,
+							height: 45,
+							alignSelf: 'center',
+							marginVertical: 15,
+							overflow: 'hidden',
+						}}
+					></Image>
 						),
 					}}
 				/>
 				<Tab.Screen
-					name='MisDatos'
-					component={MisDatos}
+					name='Terminos'
+					component={Terminos}
 					options={{
 						tabBarIcon: () => (
-							<FontAwesome5
-								name='user-edit'
-								size={30}
-								color='#fff'
-							/>
+							<Image
+							source={require('../../../assets/images/user.png')}
+							style={{
+								width: 30,
+								height: 30,
+								alignSelf: 'center',
+								marginVertical: 15,
+								overflow: 'hidden',
+							}}
+						></Image>
 						),
 					}}
 				/>
@@ -84,25 +94,35 @@ const Inicio = (props) => {
 					component={MisRentas}
 					options={{
 						tabBarIcon: () => (
-							<MaterialCommunityIcons
-								name='movie-search'
-								size={35}
-								color='#fff'
-							/>
+							<Image
+							source={require('../../../assets/images/messenger.png')}
+							style={{
+								width: 30,
+								height: 30,
+								alignSelf: 'center',
+								marginVertical: 15,
+								overflow: 'hidden',
+							}}
+						></Image>
 						),
 					}}
 				/>
 
 				<Tab.Screen
-					name='Terminos'
-					component={Terminos}
+					name='MisDatos'
+					component={MisDatos}
 					options={{
 						tabBarIcon: () => (
-							<Entypo
-								name='text'
-								size={30}
-								color='#fff'
-							/>
+							<Image
+							source={require('../../../assets/images/draw.png')}
+							style={{
+								width: 22,
+								height: 22,
+								alignSelf: 'center',
+								marginVertical: 15,
+								overflow: 'hidden',
+							}}
+						></Image>
 						),
 					}}
 				/>

@@ -76,7 +76,7 @@ const Sidebar = (props) => {
 						}}
 					>
 						<ImageBackground
-							source={require('./../../assets/images/avatar.png')}
+							source={require('./../../assets/images/profile.png')}
 							style={{
 								width: 60,
 								height: 60,

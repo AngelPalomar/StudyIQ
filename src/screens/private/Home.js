@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import {Alert,BackHandler,TouchableOpacity,} from 'react-native';
+import { Alert, BackHandler, TouchableOpacity, Image } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerActions } from '@react-navigation/core';
 import Inicio from './Inicio';
@@ -25,9 +25,9 @@ const Home = (props) => {
 					text: 'Si, salir',
 					onPress: () => {
 						/*
-                            Eliminamos el historial de 
-                            Stack
-                            */
+							Eliminamos el historial de 
+							Stack
+							*/
 						props.navigation.reset({
 							index: 0,
 							routes: [{ name: 'Login' }],
@@ -55,7 +55,16 @@ const Home = (props) => {
 						);
 					}}
 				>
-					<Entypo name='menu' size={25} />
+					<Image
+						source={require('../../../assets/images/list.png')}
+						style={{
+							width: 15,
+							height: 15,
+							alignSelf: 'center',
+							marginVertical: 15,
+							overflow: 'hidden',
+						}}
+					></Image>
 				</TouchableOpacity>
 			),
 			headerRight: () => (
@@ -67,7 +76,16 @@ const Home = (props) => {
 					}}
 					onPress={backAction}
 				>
-					<AntDesign name='poweroff' size={20} />
+					<Image
+						source={require('../../../assets/images/off.png')}
+						style={{
+							width: 15,
+							height: 15,
+							alignSelf: 'center',
+							marginVertical: 15,
+							overflow: 'hidden',
+						}}
+					></Image>
 				</TouchableOpacity>
 			),
 		});
