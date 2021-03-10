@@ -1,13 +1,13 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { Alert, BackHandler, TouchableOpacity, Image } from 'react-native';
+import { Alert, BackHandler, TouchableOpacity, Image,View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { DrawerActions } from '@react-navigation/core';
 import Inicio from './Inicio';
 import Perfil from './Perfil';
 import Catalogo from './Catalogo';
 import Sidebar from './../../components/Sidebar';
-import CerrarSesion from './CerrarSesion';
 import { Entypo, AntDesign } from '@expo/vector-icons';
+import { HeaderBackground } from '@react-navigation/stack';
 const Drawer = createDrawerNavigator();
 
 const Home = (props) => {
@@ -40,8 +40,12 @@ const Home = (props) => {
 		);
 		return true;
 	}; //ALERTA SALIR
+
 	useLayoutEffect(() => {
 		props.navigation.setOptions({
+			headerStyle: {
+				backgroundColor: '#fff'
+			  },
 			headerLeft: () => (
 				<TouchableOpacity
 					style={{
@@ -61,7 +65,6 @@ const Home = (props) => {
 							width: 15,
 							height: 15,
 							alignSelf: 'center',
-							marginVertical: 15,
 							overflow: 'hidden',
 						}}
 					></Image>
@@ -74,15 +77,13 @@ const Home = (props) => {
 						paddingLeft: 30,
 						paddingRight: 10,
 					}}
-					onPress={backAction}
 				>
 					<Image
-						source={require('../../../assets/images/off.png')}
+						source={require('../../../assets/images/save.png')}
 						style={{
-							width: 15,
-							height: 15,
+							width: 20,
+							height: 20,
 							alignSelf: 'center',
-							marginVertical: 15,
 							overflow: 'hidden',
 						}}
 					></Image>

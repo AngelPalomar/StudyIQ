@@ -4,8 +4,8 @@ import { SafeAreaView, Text, View, TouchableOpacity, Image } from 'react-native'
 import Snackbar from 'react-native-snackbar-component';
 import firebase from './../../database/firebase';
 import MisDatos from './profile/MisDatos';
-import MisRentas from './profile/MisRentas';
-import Terminos from './profile/Terminos';
+import Buscador from './profile/Buscador';
+import Mensajes from './profile/Mensajes';
 import Catalogo from './../private/Catalogo';
 import { SIZES, COLORS, FONTS } from '../../../styles/constants';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -21,6 +21,7 @@ const Inicio = (props) => {
 	useFocusEffect(() => {
 		props.navigation.dangerouslyGetParent().setOptions({
 			title: 'Inicio',
+			
 		});
 	});
 	useEffect(() => {
@@ -58,10 +59,10 @@ const Inicio = (props) => {
 					options={{
 						tabBarIcon: () => (
 						<Image
-						source={require('../../../assets/images/home.png')}
+						source={require('../../../assets/images/house1.png')}
 						style={{
-							width: 45,
-							height: 45,
+							width: 40,
+							height: 40,
 							alignSelf: 'center',
 							marginVertical: 15,
 							overflow: 'hidden',
@@ -70,28 +71,27 @@ const Inicio = (props) => {
 						),
 					}}
 				/>
+					<Tab.Screen
+						name='Buscador'
+						component={Buscador}
+						options={{
+							tabBarIcon: () => (
+								<Image
+								source={require('../../../assets/images/user.png')}
+								style={{
+									width: 30,
+									height: 30,
+									alignSelf: 'center',
+									marginVertical: 15,
+									overflow: 'hidden',
+								}}
+							></Image>
+							),
+						}}
+					/>
 				<Tab.Screen
-					name='Terminos'
-					component={Terminos}
-					options={{
-						tabBarIcon: () => (
-							<Image
-							source={require('../../../assets/images/user.png')}
-							style={{
-								width: 30,
-								height: 30,
-								alignSelf: 'center',
-								marginVertical: 15,
-								overflow: 'hidden',
-							}}
-						></Image>
-						),
-					}}
-				/>
-
-				<Tab.Screen
-					name='MisRentas'
-					component={MisRentas}
+					name='Mensajes'
+					component={Mensajes}
 					options={{
 						tabBarIcon: () => (
 							<Image
@@ -107,6 +107,7 @@ const Inicio = (props) => {
 						),
 					}}
 				/>
+
 
 				<Tab.Screen
 					name='MisDatos'

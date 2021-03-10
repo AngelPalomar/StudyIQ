@@ -1,15 +1,8 @@
 import React,{ useEffect, useState } from 'react';
-import { ImageBackground, Text, View } from 'react-native';
+import { ImageBackground, Text, View,Image } from 'react-native';
 import firebase from './../database/firebase';
-import {
-	DrawerContentScrollView,
-	DrawerItem,
-} from '@react-navigation/drawer';
+import {DrawerContentScrollView,DrawerItem,} from '@react-navigation/drawer';
 
-import {
-	AntDesign,
-	MaterialIcons,
-} from '@expo/vector-icons';
 const Sidebar = (props) => {
 	const [usuarioFirebase, setUsuarioFirebase] = useState(
 		{}
@@ -47,10 +40,10 @@ const Sidebar = (props) => {
 			}}
 		>
 			<ImageBackground
-				source={require('./../../assets/images/sidebar4.jpg')}
 				style={{
 					width: '100%',
 					paddingBottom: 30,
+					backgroundColor:'#273469'
 				}}
 			>
 				<Text
@@ -122,11 +115,16 @@ const Sidebar = (props) => {
 			<DrawerContentScrollView {...props}>
 				<DrawerItem
 					icon={() => (
-						<AntDesign
-							name='home'
-							size={20}
-							color='#000'
-						/>
+						<Image
+							source={require('../../assets/images/house1.png')}
+							style={{
+								width: 30,
+								height: 30,
+								alignSelf: 'center',
+								marginVertical: 15,
+								overflow: 'hidden',
+							}}
+						></Image>
 					)}
 					label='Inicio'
 					onPress={() => {
@@ -138,32 +136,33 @@ const Sidebar = (props) => {
 
 				<DrawerItem
 					icon={() => (
-						<AntDesign
-							name='user'
-							size={20}
-							color='#000'
-						/>
+						<Image
+							source={require('../../assets/images/user.png')}
+							style={{
+								width: 30,
+								height: 30,
+								alignSelf: 'center',
+								marginVertical: 15,
+								overflow: 'hidden',
+							}}
+						></Image>
 					)}
 					label='Perfíl'
-					onPress={() => {
-						props.navigation.navigate('Perfil');
-					}}
 				/>
-
 				<DrawerItem
 					icon={() => (
-						<MaterialIcons
-							name='local-movies'
-							size={20}
-							color='#000'
-						/>
+						<Image
+							source={require('../../assets/images/user.png')}
+							style={{
+								width: 30,
+								height: 30,
+								alignSelf: 'center',
+								marginVertical: 15,
+								overflow: 'hidden',
+							}}
+						></Image>
 					)}
-					label='Catálogo'
-					onPress={() => {
-						props.navigation.navigate(
-							'Catalogo'
-						);
-					}}
+					label='Subir publicaciones '
 				/>
 			</DrawerContentScrollView>
 		</View>

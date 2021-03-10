@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from './../database/firebase';
 import {
-	ActivityIndicator, Alert, Button, Image, Text, TextInput, View, FlatList, RefreshControl, Platform, Picker, TouchableHighlight
+	ActivityIndicator, Alert, Button, ScrollView,Image, Text, TextInput, View, FlatList, RefreshControl, Platform, Picker, TouchableHighlight
 } from 'react-native';
 import estilos from '../styles/estilos';
 import Icon from 'react-native-vector-icons/Feather';
@@ -170,6 +170,7 @@ const Registro = (props) => {
 	}
 	return (
 		//vista del app
+		<ScrollView>
 		<View style={styles.bg}>
 			{/* <Image
 				source={require('./../../assets/images/registro.png')}
@@ -300,6 +301,7 @@ const Registro = (props) => {
 			</View>
 
 		</View>
+		</ScrollView>
 	);
 };
 

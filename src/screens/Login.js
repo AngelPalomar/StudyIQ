@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Button, Image, Text, TextInput, View, TouchableHighlight } from 'react-native';
+import { ActivityIndicator, Alert,ScrollView, Button, Image, Text, TextInput, View, TouchableHighlight } from 'react-native';
 import firebase from './../database/firebase';
 //Errores traducidos MY_CORE
 import get_error from '../helpers/errores_es_mx';
@@ -139,6 +139,7 @@ const Login = (props) => {
 		}
 	};
 	return (
+		<ScrollView>
 		<View
 			style={styles.bg}
 		>
@@ -190,6 +191,7 @@ const Login = (props) => {
 			</View>
 				
 		</View>
+		</ScrollView>
 	);
 };
 
