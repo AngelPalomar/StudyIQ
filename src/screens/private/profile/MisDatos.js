@@ -8,7 +8,6 @@ import {
 	TextInput,
 	Button,
 } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import firebase from './../../../database/firebase';
 import estilos from './../../../styles/estilos';
@@ -104,11 +103,6 @@ const MisDatos = (props) => {
 						fontSize:30,
 						fontWeight:'500',
 						}}>
-							<FontAwesome5
-							name='camera-retro'
-							size={28}
-							/>
-							{' '}
 							Actualizar foto 
 							<Button title='Tomar foto '/>
 							<Button title='Galeria'
@@ -157,10 +151,6 @@ const MisDatos = (props) => {
 								bottom: 0,
 							}}
 						>
-							<FontAwesome5
-								name='camera'
-								color='#fff'
-							/>{' '}
 							Cambiar imagen
 						</Text>
 					</ImageBackground>

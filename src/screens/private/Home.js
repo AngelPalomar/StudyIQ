@@ -6,10 +6,7 @@ import Inicio from './Inicio';
 import Perfil from './Perfil';
 import Catalogo from './Catalogo';
 import Sidebar from './../../components/Sidebar';
-import { Entypo, AntDesign } from '@expo/vector-icons';
-import { HeaderBackground } from '@react-navigation/stack';
 const Drawer = createDrawerNavigator();
-
 const Home = (props) => {
 	const backAction = () => {
 		Alert.alert(

@@ -1,12 +1,6 @@
 import React from 'react';
 import { ImageBackground, Text, View, TouchableOpacity, Image } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-	FontAwesome5,
-	MaterialCommunityIcons,
-	Entypo,
-} from '@expo/vector-icons';
-
 /**
  * Para crear un Tabavigator necesitamos un contenedor para indicar
  * dentro,cada item dle menu

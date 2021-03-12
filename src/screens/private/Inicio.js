@@ -9,12 +9,6 @@ import Mensajes from './profile/Mensajes';
 import Catalogo from './../private/Catalogo';
 import { SIZES, COLORS, FONTS } from '../../../styles/constants';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {
-	FontAwesome5,
-	MaterialCommunityIcons,
-	Entypo,
-} from '@expo/vector-icons';
-
 const Tab = createBottomTabNavigator();
 const Inicio = (props) => {
 	const [snack, setSnack] = useState(false);

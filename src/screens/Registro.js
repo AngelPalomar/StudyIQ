@@ -4,7 +4,6 @@ import {
 	ActivityIndicator, Alert, Button, ScrollView,Image, Text, TextInput, View, FlatList, RefreshControl, Platform, Picker, TouchableHighlight
 } from 'react-native';
 import estilos from '../styles/estilos';
-import Icon from 'react-native-vector-icons/Feather';
 import DropDownPicker from 'react-native-dropdown-picker';
 import get_error from '../helpers/errores_es_mx';
 import styles from '../../styles/registro.scss';
