@@ -5,7 +5,7 @@
 3.- storage
 4.- hosting
 */
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 const firebaseConfig = {
