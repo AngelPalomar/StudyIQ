@@ -7,7 +7,6 @@ import MisDatos from './profile/MisDatos';
 import Buscador from './profile/Buscador';
 import Mensajes from './profile/Mensajes';
 import Catalogo from './../private/Catalogo';
-import { SIZES, COLORS, FONTS } from '../../../styles/constants';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 const Inicio = (props) => {
