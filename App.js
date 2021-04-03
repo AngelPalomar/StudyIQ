@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './src/screens/private/Home';
 import addChat from './src/screens/private/profile/addChat';
+import Chat from './src/screens/private/profile/chat';
 const Stack = createStackNavigator();
 import { LogBox } from 'react-native';
 export default function App() {
@@ -47,6 +48,10 @@ export default function App() {
 				<Stack.Screen
 					name='addChat'
 					component={addChat}
+				/>
+				<Stack.Screen
+					name='Chat'
+					component={Chat}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

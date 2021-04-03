@@ -5,26 +5,35 @@ import firebase from './../../../database/firebase';
 import Listchat from '../../../components/Listchat';
 import { ListItem, Avatar } from 'react-native-elements'
 import {query } from '../../../helpers/query/usuarios';
+import { SnapshotViewIOS } from 'react-native';
 const Mensajes = (props) => {
-    const xd = firebase.auth?.currentUser.email;
-    const user = query('usuarios', 'email', '==', firebase.auth?.currentUser.email);
-
     const [userData, setUserData] = useState([])
-
+    const [chast, setChast] = useState([])
     //console.log(user)
     useEffect(() => {
-        const xd = firebase.auth?.currentUser.email;
-
         query('usuarios', 'email', '==', firebase.auth?.currentUser.email).then(list => {
             setUserData(list[0].avatar)
         });
     }, []);
 
     useEffect(() => {
-        if (userData.length > 0) {
-            console.log(userData)
-        }
-    }, [userData])
+        const colecionchats=firebase.db.collection('chats')
+        .where('datos', 'array-contains-any',[firebase.auth?.currentUser.email,firebase.auth?.currentUser.email])
+        .onSnapshot(
+            onsnapshot=>
+            (
+                setChast(onsnapshot.docs.map(doc=>({
+                  id:doc.id,
+                  data:doc.data()
+
+                })))
+            ))
+            console.log(firebase.auth?.currentUser.email)
+            return colecionchats;
+    }, [])
+    const enterChat=(id,chatName)=>{
+        props.navigation.navigate("Chat",{id:id,chatName:chatName,})
+    }
     return (
         <SafeAreaView>
             <View style={{ flexDirection: 'row',backgroundColor:'#fff' }}>
@@ -51,13 +60,19 @@ const Mensajes = (props) => {
                 </View>
             </View>
 
-            <ScrollView>
-                <Listchat>
-
-                </Listchat>
+            <ScrollView style={styles.contenedor}>
+              {chast.map(({id,data:{chatName}})=>(
+              <Listchat key={id} id={id} chatName={chatName}
+              enterChat={enterChat}
+              />
+              ))}
             </ScrollView>
         </SafeAreaView>
     )
 }
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    contenedor:{
+        height:'100%'
+    }
+})
 export default Mensajes;
