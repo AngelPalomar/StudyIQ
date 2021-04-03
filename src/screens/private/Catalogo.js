@@ -4,8 +4,12 @@ import {
 	FlatList,
 	RefreshControl,
 	View,
+	Text
 } from 'react-native';
+
+/**Componentes */
 import Usuario from '../../components/Usuario';
+import CrearPublicacion from '../../components/CrearPublicacion'
 
 const Catalogo = (props) => {
 	//Estado que guarde el arreglo de objetos de laista de usuarios
@@ -57,8 +61,9 @@ const Catalogo = (props) => {
 
 	return (
 		<View style={{ flex: 1 }}>
+			<CrearPublicacion />
 			<FlatList
-				style={{ margin: 15 }}
+				style={{ marginHorizontal: 15 }}
 				//Indicar el estado de carga
 				refreshControl={
 					<RefreshControl

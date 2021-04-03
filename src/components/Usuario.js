@@ -33,12 +33,12 @@ const Usuario = ({ datosUsuario }) => {
 					shadowColor: "#000",
 					shadowOffset: {
 						width: 0,
-						height: 5,
+						height: 1.5,
 					},
-					shadowOpacity: 0.36,
-					shadowRadius: 6.68,
+					shadowOpacity: 0.5,
+					shadowRadius: 3,
 
-					elevation: 11,
+					elevation: 3,
 				}}
 			>
 				<View style={{ flexDirection: 'row' }}>
@@ -63,6 +63,7 @@ const Usuario = ({ datosUsuario }) => {
 					<View
 						style={{
 							flex: 11,
+							marginLeft: 10,
 							justifyContent: 'center',
 						}}
 					>
@@ -72,9 +73,7 @@ const Usuario = ({ datosUsuario }) => {
 								fontWeight: '900',
 							}}
 						>
-							{first_name}
-							{'  '}
-							{last_name}
+							{`${first_name} ${last_name}`}
 						</Text>
 						<Text
 							style={{
@@ -113,36 +112,36 @@ const Usuario = ({ datosUsuario }) => {
 				{// xd					
 				}
 				<View style={{ flexDirection: 'row' }}>
-				<Text style={{
-								marginTop: 1,
-							}}>
-					Hola mundo en diferentes lenguajes
+					<Text style={{
+						marginVertical: 10,
+					}}>
+						Hola mundo en diferentes lenguajes
 				</Text>
 				</View>
-				<View style={{ flexDirection: 'row',
-				justifyContent: 'center',
-			}}>
-				<TouchableOpacity
+				<View style={{
+					flexDirection: 'row',
+					justifyContent: 'center',
+				}}>
+					<TouchableOpacity
+						style={{
+							backgroundColor: '#fff',
+							padding: 10,
+							borderRadius: 20,
+						}}>
+						<Image
+							source={{ uri: 'https://instagram.fqro1-1.fna.fbcdn.net/v/t51.2885-15/fr/e15/s1080x1080/120664818_108077857733699_994194970376000551_n.jpg?tp=1&_nc_ht=instagram.fqro1-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=O3rh1Dbe9WsAX86RlsP&oh=8ef00908e8d13a9877aa85f383557e93&oe=60724E97' }}
 							style={{
-								backgroundColor: '#fff',
-								padding: 10,
-								margin: 5,
-								borderRadius: 20,
+								width: 200,
+								height: 200,
+								alignSelf: 'center',
 							}}>
-							<Image
-								source={{uri:'https://instagram.fqro1-1.fna.fbcdn.net/v/t51.2885-15/fr/e15/s1080x1080/120664818_108077857733699_994194970376000551_n.jpg?tp=1&_nc_ht=instagram.fqro1-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=O3rh1Dbe9WsAX86RlsP&oh=8ef00908e8d13a9877aa85f383557e93&oe=60724E97'}}
-								style={{
-									width: 200,
-									height: 200,
-									alignSelf: 'center',
-								}}>
-							</Image>
-						</TouchableOpacity>
+						</Image>
+					</TouchableOpacity>
 				</View>
 			</View>
 			{// xd
 			}
-			
+
 		</TouchableOpacity>
 	);
 };
