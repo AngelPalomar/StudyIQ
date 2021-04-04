@@ -69,7 +69,7 @@ const Sidebar = (props) => {
 						}}
 					>
 						<ImageBackground
-							source={require('./../../assets/images/profile.png')}
+							source={typeof docUsuario.avatar !== 'undefined' ? { uri: docUsuario.avatar } :null}
 							style={{
 								width: 60,
 								height: 60,

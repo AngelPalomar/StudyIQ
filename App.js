@@ -52,6 +52,8 @@ export default function App() {
 				<Stack.Screen
 					name='Chat'
 					component={Chat}
+					options={{title:'Chat'
+				}}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

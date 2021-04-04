@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-	ImageBackground,
-	SafeAreaView,
-	ScrollView,
-	Text,
-	View,
-	TextInput,
-	Button,
-	Image,
-} from 'react-native';
-import { TouchableHighlight, TouchableOpacity } from 'react-native-gesture-handler';
+import { ImageBackground, SafeAreaView, ScrollView, Text, View, TextInput, Button, } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import firebase from './../../../database/firebase';
 import estilos from './../../../styles/estilos';
 import ProgressDialog from '../../../components/ProgressDialog';
@@ -32,11 +23,11 @@ const MisDatos = (props) => {
 		//invocamos la consulta
 		getDocUsuario(firebase.auth.currentUser.uid);
 	}, []);
+
 	//query de user
 	const getDocUsuario = async (uid) => {
 		try {
 			const query = await firebase.db.collection('usuarios').where('authId', '==', uid).get();
-			//en caso de existir
 			if (!query.empty) {
 				const snapshot = query.docs[0];
 				setDocUsuario({ ...snapshot.data(), id: snapshot.id });
@@ -47,6 +38,8 @@ const MisDatos = (props) => {
 			console.warn(e.toString());
 		}
 	};
+
+	//Funcion para obtner imagen de galeria
 	const getImagenGaleria = async () => {
 		//se obtine los permisos
 		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -62,6 +55,7 @@ const MisDatos = (props) => {
 			setModalImg(false);
 			setLoading(true);
 
+			//se obtiene los datos de imagen 
 			const blob = await (await fetch(imgGaleria.uri)).blob();
 			const file = new File([blob], `${docUsuario.id}.jpg`, { type: 'image/jpeg', });
 			blob.close();
@@ -77,6 +71,8 @@ const MisDatos = (props) => {
 
 					// agregamos en la colecion la url
 					await firebase.db.collection('usuarios').doc(docUsuario.id).update({ avatar: urlAvatar });
+					//Ingresa la url
+					await firebase.auth.currentUser.updateProfile({photoURL: urlAvatar});
 					// Snack que indique los cambios 
 					setLoading(false);
 					setSnackUpdate(true);
@@ -126,7 +122,8 @@ const MisDatos = (props) => {
 					const urlAvatar = await subida.ref.getDownloadURL();
 					// se actualiza la colecion del user
 					await firebase.db.collection('usuarios').doc(docUsuario.id).update({ avatar: urlAvatar });
-
+					//Ingresa la url
+					await firebase.auth.currentUser.updateProfile({photoURL: urlAvatar});
 					setLoading(false);
 					setSnackUpdate(true);
 				}
@@ -146,6 +143,9 @@ const MisDatos = (props) => {
 	return (
 		// SafeAreaView calcula el espacio donde el texto no se visualiza y lo recorre
 		<SafeAreaView style={{ flex: 1 }}>
+			{
+				//Los snack son alertas que se mostran ya sea el caso 
+			}
 			<Snack
 				textMessage='Datos actualizados'
 				messageColor='#fff'
@@ -164,6 +164,9 @@ const MisDatos = (props) => {
 				actionHandler={() => setSnackError(false)}
 				visible={snackError}
 			/>
+			{
+				//Appmodal es una ventana que se mostrara cuando quieran cambiar la imagen 
+			}
 			{modalImg ? (
 				<AppModal
 					show={modalImg}
@@ -173,6 +176,9 @@ const MisDatos = (props) => {
 					modalOpacity={1}
 					modalContent={
 						<View>
+							{
+								//Este es el contenido que tendra la modal
+							}
 							<Text
 								style={{ alignSelf: 'center', marginBottom: 20, fontSize: 20, fontWeight: '500', }}>
 								Actualizar foto de perfíl
@@ -194,15 +200,14 @@ const MisDatos = (props) => {
 				/>
 			) : null
 			}
+
 			{ loading ? <ProgressDialog /> : null}
 			<ScrollView>
 				<TouchableOpacity onPress={() => setModalImg(true)}>
 					<ImageBackground
 						source={
-							typeof docUsuario.avatar !==
-								'undefined'
-								? { uri: docUsuario.avatar }
-								: require('./../../../../assets/images/avatar.png')
+							typeof docUsuario.avatar !== 'undefined' ? { uri: docUsuario.avatar } :
+								require('./../../../../assets/images/avatar.png')
 						}
 						style={{
 							width: 200,
@@ -232,32 +237,30 @@ const MisDatos = (props) => {
 				</TouchableOpacity>
 
 				<View style={{ margin: 10, flex: 1 }}>
+					{
+						//Nombre del usuario
+					}
 					<TextInput
 						style={estilos.input}
 						placeholder='Nombre'
 						keyboardType='default'
 						value={docUsuario.nombres}
-						onChangeText={(val) =>
-							setDocUsuario({
-								...docUsuario,
-								['nombres']: val,
-							})
-						}
+						onChangeText={(val) => setDocUsuario({ ...docUsuario, ['nombres']: val, })}
 					/>
-
+					{
+						//Apellidos del usuario 
+					}
 					<TextInput
 						style={estilos.input}
-						placeholder='Apellido 1'
+						placeholder='Apellidos'
 						keyboardType='default'
 						value={docUsuario.apellidos}
-						onChangeText={(val) =>
-							setDocUsuario({
-								...docUsuario,
-								['apellidos']: val,
-							})
+						onChangeText={(val) => setDocUsuario({ ...docUsuario, ['apellidos']: val, })
 						}
 					/>
-
+					{
+						//correo de la cual no se puede editar
+					}
 					<TextInput
 						style={estilos.input}
 						placeholder='Correo electrónico'
@@ -270,31 +273,12 @@ const MisDatos = (props) => {
 						title='Guardar cambios'
 						onPress={async () => {
 							setLoading(true);
-
-							/**
-							 * Existen dos tipos de edicion de datos en
-							 * FireStore
-							 *
-							 * 1.- update (constructivo)
-							 *      Solo se editan los campos indicados
-							 *      y los demás se respetan
-							 * 2.- set (destructivo)
-							 *      Solo se editan los campos indicados
-							 *      y los demás se eliminan
-							 */
 							try {
-								//Seleccionamos de toda la coleccion
-								//solo el elemento del id de ese
-								//documento
-								await firebase.db
-									.collection('usuarios')
-									.doc(docUsuario.id)
-									.update({
-										nombres:
-											docUsuario.nombres,
-										apellidos:
-											docUsuario.apellidos,
-									});
+								//Se actuliza los datos 
+								await firebase.db.collection('usuarios').doc(docUsuario.id).update({
+									nombres: docUsuario.nombres,
+									apellidos: docUsuario.apellidos,
+								});
 								setLoading(false);
 								setSnackUpdate(true);
 							} catch (e) {

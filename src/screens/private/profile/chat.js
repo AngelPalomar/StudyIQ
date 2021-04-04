@@ -6,42 +6,24 @@ import { TouchableWithoutFeedback } from 'react-native'
 import { Image } from 'react-native'
 import { SafeAreaView } from 'react-native'
 import { StyleSheet, Text, View } from 'react-native'
-import { ListItem, Avatar } from 'react-native-elements'
+import { Avatar } from 'react-native-elements'
 import { ScrollView, TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import firebase from './../../../database/firebase';
 import * as firebaseG from 'firebase'
 import { query } from '../../../helpers/query/usuarios';
 
-const chat = ({ navigation, route }) => {
+const chat = ({ route }) => {
     const [input, setInput] = useState('')
     const [userData, setUserData] = useState([])
     const [messages, setMessages] = useState([])
+    //Query que retorna el usuario
     useEffect(() => {
         query('usuarios', 'email', '==', firebase.auth?.currentUser.email).then(list => {
             setUserData(list[0].avatar)
         });
     }, []);
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            title: 'Chat',
-            headerBackTitleVisible: false,
-            headerTitleAlign: 'left',
-            headerTitle: () => {
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        alignItems: 'center'
-                    }}
-                >
-                    <Avatar rounded source={{ uri: 'https://cdn1.iconfinder.com/data/icons/feather-2/24/edit-3-256.png' }} />
-                    <Text style={{ color: '#000', marginLeft: '10', fontWeight: '700' }}>
-                        {route.params.chatName}
-                    </Text>
-                </View>
-            }
-        })
-    }, [navigation])
 
+    //Se egrega los mensajes dentro del chat 
     const sendMensajes = async () => {
         Keyboard.dismiss();
         try {
@@ -50,19 +32,19 @@ const chat = ({ navigation, route }) => {
                     timestamp: firebaseG.firestore.FieldValue.serverTimestamp(),
                     message: input,
                     email: firebase.auth.currentUser.email,
+                    putoxd: firebase.auth.currentUser.photoURL,
                 });
         } catch (error) {
             console.log(error)
         }
-
+        //Una vez que envio el mensaje de pone en null el input 
         setInput('');
     }
+
     useLayoutEffect(() => {
+        //Se obtine los mensajes en tiempo real de manera desendente 
         const unsubscribe =
-            firebase.db
-                .collection('chats')
-                .doc(route.params.id)
-                .collection('messages')
+            firebase.db.collection('chats').doc(route.params.id).collection('messages')
                 .orderBy('timestamp', 'desc')
                 .onSnapshot((snapshot) => setMessages(
                     snapshot.docs.map(doc => ({
@@ -70,10 +52,9 @@ const chat = ({ navigation, route }) => {
                         data: doc.data()
                     }))
                 ))
-        console.log(messages)
         return unsubscribe;
-
     }, [route])
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
             <StatusBar style='light' />
@@ -82,23 +63,24 @@ const chat = ({ navigation, route }) => {
                 style={styles.contenedor}
                 keyboardVerticalOffset={90}
             >
-                <ScrollView contentContainerStyle={{padding:15}}>
+                <ScrollView contentContainerStyle={{ padding: 15 }}>
                     {messages.map(({ id, data }) =>
                         data.email === firebase.auth.currentUser.email ?
                             (
                                 <View key={id} style={styles.recive}>
                                     <Avatar rounded
                                         containerStyle={{
-                                            position:'absolute',
-                                            bottom:-15,
-                                            right:-5,
+                                            position: 'absolute',
+                                            bottom: -15,
+                                            right: -5,
                                         }}
                                         position='absolute'
                                         rounded
                                         bottom={-15}
                                         right={-5}
                                         size={30}
-                                        source={{ uri: `${userData}` }} />
+                                        source={{ uri: `${data.putoxd}`|| 'https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male-256.png' }} />
+                                        
                                     <Text style={styles.reciveText}>
                                         {data.message}
                                     </Text>
@@ -106,16 +88,17 @@ const chat = ({ navigation, route }) => {
                             ) :
                             (<View key={id} style={styles.sender}>
                                 <Avatar
-                                containerStyle={{
-                                    position:'absolute',
-                                    bottom:-15,
-                                    right:-5,
-                                }}
-                                position='absolute'
-                                rounded
-                                bottom={-15}
-                                right={-5}
-                                size={30}
+                                    containerStyle={{
+                                        position: 'absolute',
+                                        bottom: -15,
+                                        right: -5,
+                                    }}
+                                    position='absolute'
+                                    rounded
+                                    bottom={-15}
+                                    right={-5}
+                                    size={30}
+                                    source={{ uri: `${data.putoxd}`|| 'https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male-256.png' }}
                                 />
                                 <Text style={styles.senderText}>
                                     {data.message}
@@ -185,16 +168,16 @@ const styles = StyleSheet.create({
         backgroundColor: '#cE8BC0',
         alignSelf: 'flex-start',
         borderRadius: 20,
-        margin:15,
+        margin: 15,
         maxWidth: '80%',
-       position:'relative'
+        position: 'relative'
 
     },
     senderText: {
-        color:'white',
-        fontWeight:'500',
-        marginLeft:10,
-        marginBottom:15,
+        color: 'white',
+        fontWeight: '500',
+        marginLeft: 10,
+        marginBottom: 15,
     },
     TextInput: {
         bottom: 0,
