@@ -57,7 +57,7 @@ const Mensajes = (props) => {
 
                 <View style={{ flex: 1 }}>
                     <View style={{ marginLeft: 20, marginTop:5 }}>
-                        <Avatar rounded source={{ uri: `${userData}` }} />
+                        <Avatar rounded source={{ uri: firebase.auth?.currentUser.photoURL }} />
                     </View>
                 </View>
 

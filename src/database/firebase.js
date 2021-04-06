@@ -7,7 +7,6 @@
 */
 import firebase from 'firebase';
 import 'firebase/firestore';
-
 const firebaseConfig = {
     apiKey: "AIzaSyC_6HFE2q4NQLhZQ98daaeeyF59UULo_dA",
     authDomain: "studyiq-2882a.firebaseapp.com",
@@ -26,6 +25,8 @@ Retornar los servicios de firebase
 const db = firebase.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
+ const xd =firebase.database();
+
 
 /* 
 Generamos una librería reutilizable
@@ -34,4 +35,5 @@ export default {
 	db,
 	auth,
 	storage,
+    xd
 };
