@@ -33,6 +33,32 @@
     margin-top: 24px;
 }
 
+.buttons{
+    padding: 10px 32px;
+    background-color: $blue-semi;
+    align-self: center;
+    border-radius: 4px;
+    margin-top: 24px;
+}
+
+.button__modal{
+    padding: 10px 32px;
+    width: 200px;
+    background-color: $blue-semi;
+    align-self: center;
+    border-radius: 4px;
+    margin-top: 10px;
+
+    &_negative{
+        padding: 10px 32px;
+        width: 200px;
+        align-self: center;
+        border-radius: 4px;
+        margin-top: 10px;
+        background-color: #D14748;
+    }
+}
+
 
 .text__color{
     color: $white;

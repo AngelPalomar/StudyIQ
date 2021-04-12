@@ -154,18 +154,20 @@ const styles = StyleSheet.create({
     },
     recive: {
         padding: 15,
-        backgroundColor: '#2E8BC0',
+        backgroundColor: '#05197A',
+        color: '#fff',
         alignSelf: 'flex-end',
         borderRadius: 20,
         marginRight: 15,
         marginBottom: 20,
         maxWidth: '80%',
-        color: 'white'
+        
 
     },
     sender: {
         padding: 15,
         backgroundColor: '#cE8BC0',
+        color: '#ffffff',
         alignSelf: 'flex-start',
         borderRadius: 20,
         margin: 15,

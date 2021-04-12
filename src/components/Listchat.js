@@ -20,6 +20,7 @@ const Listchat = ({ id, chatName, enterChat }) => {
             key={id}
             bottomDivider
             onPress={() => enterChat(id, chatName)}>
+                
 
             {/*Es el logo de messenger*/}
             <Avatar

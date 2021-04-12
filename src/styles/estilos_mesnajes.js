@@ -5,8 +5,8 @@ export default StyleSheet.create({
 
     wrapper: {
         backgroundColor	: '#FAFAFA',
-		width			: '100%',
-		marginVertical  :  8,
+				width			: '100%',
+				marginVertical  :  8,
 		
     },
 	mensajes__header: {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, SafeAreaView, ScrollView, Text, View, TextInput, Button, } from 'react-native';
+import { ImageBackground, SafeAreaView, ScrollView, Text, View, TextInput, Button, TouchableHighlight } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import firebase from './../../../database/firebase';
 import estilos from './../../../styles/estilos';
@@ -8,6 +8,7 @@ import Snack from 'react-native-snackbar-component';
 import AppModal from '../../../components/AppModal';
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
+import style from '../../../../styles/login.scss';
 const MisDatos = (props) => {
 	const [usuarioFirebase, setUsuarioFirebase] = useState({});
 	const [docUsuario, setDocUsuario] = useState({});
@@ -183,18 +184,33 @@ const MisDatos = (props) => {
 								style={{ alignSelf: 'center', marginBottom: 20, fontSize: 20, fontWeight: '500', }}>
 								Actualizar foto de perfíl
             				</Text>
-							<Button title='Tomar foto' onPress={getFotoCamara} />
+
+							<TouchableHighlight style = {style.button__modal} onPress={getFotoCamara}>
+									<Text style = {style.text__color}>Tomar foto</Text>
+							</TouchableHighlight > 
+
+							{/* <Button title='Tomar foto' onPress={getFotoCamara} /> */}
 
 							{Platform.OS === 'android' ? (<View style={{ marginVertical: 10, }} />) : null}
 
-							<Button title='Galería' onPress={getImagenGaleria} />
+							<TouchableHighlight style = {style.button__modal} onPress={getImagenGaleria}>
+									<Text style = {style.text__color}>Galería</Text>
+							</TouchableHighlight > 
+
+							{/* <Button title='Galería' onPress={getImagenGaleria} /> */}
 
 							{Platform.OS === 'android' ? (<View style={{ marginVertical: 10, }} />) : null}
 
-							<Button
+							<TouchableHighlight style = {style.button__modal_negative} onPress={() => setModalImg(false)}>
+									<Text style = {style.text__color}>Cancelar</Text>
+							</TouchableHighlight > 
+
+							{/* <Button
 								title='Cancelar'
 								color='red'
-								onPress={() => setModalImg(false)} />
+								onPress={() => setModalImg(false)} /> */}
+
+
 						</View>
 					}
 				/>
@@ -210,11 +226,11 @@ const MisDatos = (props) => {
 								require('./../../../../assets/images/avatar.png')
 						}
 						style={{
-							width: 200,
-							height: 200,
+							width: 150,
+							height: 150,
 							alignSelf: 'center',
-							marginVertical: 15,
-							borderRadius: 25,
+							marginTop: 64,
+							borderRadius: 100,
 							overflow: 'hidden',
 						}}
 					>
@@ -236,7 +252,7 @@ const MisDatos = (props) => {
 					</ImageBackground>
 				</TouchableOpacity>
 
-				<View style={{ margin: 10, flex: 1 }}>
+				<View style = {style.bg} >
 					{
 						//Nombre del usuario
 					}
@@ -269,7 +285,29 @@ const MisDatos = (props) => {
 						editable={false}
 					/>
 
-					<Button
+					<TouchableHighlight style = {style.buttons} 
+					
+					onPress={async () => {
+						setLoading(true);
+						try {
+							//Se actuliza los datos 
+							await firebase.db.collection('usuarios').doc(docUsuario.id).update({
+								nombres: docUsuario.nombres,
+								apellidos: docUsuario.apellidos,
+							});
+							setLoading(false);
+							setSnackUpdate(true);
+						} catch (e) {
+							setLoading(false);
+							setSnackError(true);
+						}
+					}}>
+
+				<Text style = {style.text__color}>Guardar cambios</Text>
+
+			</TouchableHighlight > 
+
+					{/* <Button
 						title='Guardar cambios'
 						onPress={async () => {
 							setLoading(true);
@@ -286,7 +324,7 @@ const MisDatos = (props) => {
 								setSnackError(true);
 							}
 						}}
-					/>
+					/> */}
 				</View>
 			</ScrollView>
 		</ SafeAreaView>

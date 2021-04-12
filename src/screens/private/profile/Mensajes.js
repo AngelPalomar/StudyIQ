@@ -5,6 +5,9 @@ import firebase from './../../../database/firebase';
 import Listchat from '../../../components/Listchat';
 import { Avatar } from 'react-native-elements'
 import { query } from '../../../helpers/query/usuarios';
+import header from '../../../styles/estilos_header';
+import estilos_header from '../../../styles/estilos_header';
+import estilos_mesnajes from '../../../styles/estilos_mesnajes';
 const Mensajes = (props) => {
 
     const [userData, setUserData] = useState([])
@@ -42,31 +45,27 @@ const Mensajes = (props) => {
             </View>
             <View style={{
                 flexDirection: 'row', 
-                backgroundColor: '#FAFAFF',
+                backgroundColor: '#FFFFFF',
                 paddingBottom:10,
+                marginBottom: 1,
                 //Esto da un estilo como sombra
-                shadowOffset: {
-                    width: 0,
-                    height: 5,
-                },
-                shadowOpacity: 0.36,
-                shadowRadius: 6.68,
-                elevation: 11,
             }}>
                 {/*Retorna la imagen del usuario*/}
 
                 <View style={{ flex: 1 }}>
-                    <View style={{ marginLeft: 20, marginTop:5 }}>
+                    <View style={{ marginLeft: 20, marginTop:8 }}>
                         <Avatar rounded source={{ uri: firebase.auth?.currentUser.photoURL }} />
                     </View>
                 </View>
 
+                {/* header de la pantalla */}
+
                 {/*Titulo*/}
 
-                <View style={{ flex: 3 }}>
-                    <View style={{ marginLeft: 70 }}>
+                <View style = {estilos_header.wrapper}>
+                    <View style = {estilos_header.bg}>
                         <TouchableOpacity activeOpacity={0.5}>
-                            <Text style={{ alignContent: 'center' }}>
+                            <Text style = {estilos_header.text} >
                                 Chat StudyIQ
                             </Text>
                         </TouchableOpacity>
@@ -76,13 +75,15 @@ const Mensajes = (props) => {
                 {/*Icono que manda a la nagacion para agregar chat */}
 
                 <View style={{ flex: 1 }}>
-                    <View style={{ marginLeft: 20 }}>
+                    <View style={{ marginLeft: 20, marginTop: 8 }}>
                         <TouchableOpacity activeOpacity={0.5} onPress={() => props.navigation.navigate('addChat')}>
-                            <Avatar rounded source={{ uri: 'https://cdn1.iconfinder.com/data/icons/feather-2/24/edit-3-256.png' }} />
+                            <Avatar source={{ uri: 'https://cdn3.iconfinder.com/data/icons/glypho-free/64/pen-checkbox-512.png' }} />
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
+
+            {/* Mandamos a llamar al componente listchat, para mostrar el listado de los chats */}
 
             {/*Listado de los chats*/}
 
@@ -98,7 +99,9 @@ const Mensajes = (props) => {
 }
 const styles = StyleSheet.create({
     contenedor: {
-        height: '100%'
+        height: '100%',
+        
     }
+    
 })
 export default Mensajes;
