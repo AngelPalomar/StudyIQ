@@ -1,4 +1,4 @@
-import React , { useEffect }from 'react';
+import React, { useEffect } from 'react';
 
 import Login from './src/screens/Login';
 import Registro from './src/screens/Registro';
@@ -7,6 +7,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Home from './src/screens/private/Home';
 import addChat from './src/screens/private/profile/addChat';
 import Chat from './src/screens/private/profile/chat';
+import VerPerfil from './src/screens/private/profile/VerPerfil'
+import CrearSolicitudAsesoria from './src/screens/private/CrearSolicitudAsesoria'
+import EditarPub from './src/screens/private/EditarPublicacion'
 const Stack = createStackNavigator();
 import { LogBox } from 'react-native';
 export default function App() {
@@ -52,8 +55,30 @@ export default function App() {
 				<Stack.Screen
 					name='Chat'
 					component={Chat}
-					options={{title:'Chat'
-				}}
+					options={{
+						title: 'Chat'
+					}}
+				/>
+				<Stack.Screen
+					name='VerPerfil'
+					component={VerPerfil}
+					options={{
+						title: 'Perfil'
+					}}
+				/>
+				<Stack.Screen
+					name='SolicitarAsesoria'
+					component={CrearSolicitudAsesoria}
+					options={{
+						title: 'Solicitar asesoría'
+					}}
+				/>
+				<Stack.Screen
+					name='EditarPublicacion'
+					component={EditarPub}
+					options={{
+						title: 'Editar publicación'
+					}}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

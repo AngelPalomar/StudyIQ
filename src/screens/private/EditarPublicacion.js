@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, ImageBackground, StyleSheet, Image, ActivityIndicator } from 'react-native'
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
-import firebase from '../database/firebase'
+import firebase from '../../database/firebase'
 
 /**Componentes */
 import Snack from 'react-native-snackbar-component';
@@ -11,12 +11,12 @@ import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 import { SafeAreaView } from 'react-native';
 
-const CrearPublicacion = () => {
+const EditarPublicacion = (props) => {
     const [usuarioFirebase, setUsuarioFirebase] = useState({});
     const [docUsuario, setDocUsuario] = useState({});
     const [publicacion, setPublicacion] = useState({
         autor: "",
-        texto: ""
+        texto: props.route.params.datos.texto
     })
     const [imagenes, setImagenes] = useState([])
     const [file, setFile] = useState({})
@@ -135,17 +135,11 @@ const CrearPublicacion = () => {
                     //Sube los datos de la publicación a firebase
                     publicDoc = await firebase.db
                         .collection('publicaciones')
-                        .add({
+                        .doc(props.route.params.datos.id)
+                        .update({
                             ...publicacion,
                             imagenUrl: urlImage,
-                            fecha: {
-                                dia: String(hoy.getDate()).padStart(2, '0'),
-                                mes: String(hoy.getMonth() + 1).padStart(2, '0'),
-                                anio: hoy.getFullYear().toString(),
-                                hora: hoy.getHours().toString(),
-                                minuto: hoy.getMinutes().toString(),
-                                segundo: hoy.getSeconds().toString()
-                            }
+                            editado: true
                         })
 
                     //Para la carga
@@ -161,22 +155,15 @@ const CrearPublicacion = () => {
                 //Sube los datos de la publicación a firebase
                 publicDoc = await firebase.db
                     .collection('publicaciones')
-                    .add({
+                    .doc(props.route.params.datos.id)
+                    .update({
                         ...publicacion,
-                        imagenUrl: null,
-                        fecha: {
-                            dia: String(hoy.getDate()).padStart(2, '0'),
-                            mes: String(hoy.getMonth() + 1).padStart(2, '0'),
-                            anio: hoy.getFullYear().toString(),
-                            hora: hoy.getHours().toString(),
-                            minuto: hoy.getMinutes().toString(),
-                            segundo: hoy.getSeconds().toString()
-                        }
+                        editado: true
                     }).then((doc) => {
                         setIsLoading(false)
                         setIsUpload(true)
                         setOpenSnack(true)
-                        setSnackMessage("Publicado con éxito")
+                        setSnackMessage("Editado con éxito")
                     })
             }
 
@@ -194,7 +181,9 @@ const CrearPublicacion = () => {
                 textMessage={snackMessage}
                 actionText='Aceptar'
                 actionHandler={() => {
-                    setOpenSnack(false)
+                    //setOpenSnack(false)
+
+                    props.navigation.goBack()
 
                     if (isUpload) {
                         //Vacía el arreglo de archivos e imagenes
@@ -215,7 +204,7 @@ const CrearPublicacion = () => {
                         flexDirection: 'row',
                         alignContent: 'center',
                         alignItems: 'center',
-                        marginBottom: 10
+                        marginBottom: 15
                     }}>
                         <ImageBackground
                             source={{ uri: firebase.auth.currentUser.photoURL }}
@@ -235,6 +224,7 @@ const CrearPublicacion = () => {
                                 borderRadius: 10,
                                 paddingHorizontal: 10
                             }}
+                            defaultValue={props.route.params.datos.texto}
                             keyboardType="default"
                             multiline
                             maxLength={255}
@@ -296,21 +286,27 @@ const CrearPublicacion = () => {
                                 <Text>CÁMARA</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={subirPublicacion}>
-                                <Text>Publicar</Text>
+                                <Text>Guardar</Text>
                             </TouchableOpacity>
                         </> :
                         <>
                             <ActivityIndicator size={20} color="#273469" />
-                            <Text>Publicando...</Text>
+                            <Text>Editando...</Text>
                         </>
                     }
                 </View>
             </View>
+            {
+                props.route.params.datos.imagenUrl ?
+                    <Image
+                        style={{ width: 100, height: 100 }}
+                        source={{ uri: props.route.params.datos.imagenUrl }} /> : null
+            }
         </SafeAreaView>
     )
 }
 
-export default CrearPublicacion
+export default EditarPublicacion
 
 const styles = StyleSheet.create({
     card: {

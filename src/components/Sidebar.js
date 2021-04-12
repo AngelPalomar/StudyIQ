@@ -1,7 +1,7 @@
-import React,{ useEffect, useState } from 'react';
-import { ImageBackground, Text, View,Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, Text, View, Image } from 'react-native';
 import firebase from './../database/firebase';
-import {DrawerContentScrollView,DrawerItem,} from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItem, } from '@react-navigation/drawer';
 
 const Sidebar = (props) => {
 
@@ -20,12 +20,12 @@ const Sidebar = (props) => {
 	useEffect(() => {
 		const reference = firebase.xd.ref('/Sensores').on('value', querySnapShot => {
 			setTem(querySnapShot.val() ? querySnapShot.val() : {})
-		  });
+		});
 	}, [setTem])
 
 	const getDocUsuario = async (uid) => {
 		try {
-			
+
 			const query = await firebase.db.collection('usuarios').where('authId', '==', uid).get();
 			if (!query.empty) {
 				const snapshot = query.docs[0];
@@ -50,8 +50,8 @@ const Sidebar = (props) => {
 			<ImageBackground
 				style={{
 					width: '100%',
-					paddingBottom: 50,
-					backgroundColor:'#273469'
+					paddingBottom: 30,
+					backgroundColor: '#273469'
 				}}
 			>
 				<Text
@@ -77,7 +77,7 @@ const Sidebar = (props) => {
 						}}
 					>
 						<ImageBackground
-							source={typeof docUsuario.avatar !== 'undefined' ? { uri: docUsuario.avatar } :null}
+							source={typeof docUsuario.avatar !== 'undefined' ? { uri: docUsuario.avatar } : null}
 							style={{
 								width: 60,
 								height: 60,
@@ -107,34 +107,34 @@ const Sidebar = (props) => {
 							>
 								{docUsuario.nombres}{' '}{docUsuario.apellidos}
 							</Text>
-							<Text 
-							style={{
-								fontSize: 13,
-								marginBottom: 5,
-								color: '#fff',
-								fontWeight: 'bold'
-							}}>
-							{docUsuario.email}
+							<Text
+								style={{
+									fontSize: 13,
+									marginBottom: 5,
+									color: '#fff',
+									fontWeight: 'bold'
+								}}>
+								{docUsuario.email}
 							</Text>
-							<Text 
-							style={{
-								fontSize: 13,
-								marginBottom: 5,
-								color: '#fff',
-								fontWeight: 'bold'
-							}}>
-							Humedad:{  tem.humedad} %
-							
+							<Text
+								style={{
+									fontSize: 13,
+									marginBottom: 5,
+									color: '#fff',
+									fontWeight: 'bold'
+								}}>
+								Humedad:{tem.humedad} %
+
 							</Text>
-							<Text 
-							style={{
-								fontSize: 13,
-								marginBottom: 5,
-								color: '#fff',
-								fontWeight: 'bold'
-							}}>
-							Temperatura:{ tem.temperatura}°C
-							
+							<Text
+								style={{
+									fontSize: 13,
+									marginBottom: 5,
+									color: '#fff',
+									fontWeight: 'bold'
+								}}>
+								Temperatura:{tem.temperatura}°C
+
 							</Text>
 						</View>
 					</View>
@@ -144,7 +144,7 @@ const Sidebar = (props) => {
 				<DrawerItem
 					icon={() => (
 						<Image
-							source={require('../../assets/images/house1.png')}
+							source={require('../../assets/images/home-512.png')}
 							style={{
 								width: 30,
 								height: 30,
