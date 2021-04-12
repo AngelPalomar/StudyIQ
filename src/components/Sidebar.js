@@ -4,10 +4,12 @@ import firebase from './../database/firebase';
 import { DrawerContentScrollView, DrawerItem, } from '@react-navigation/drawer';
 
 const Sidebar = (props) => {
+
 	const [usuarioFirebase, setUsuarioFirebase] = useState(
 		{}
 	);
 	const [docUsuario, setDocUsuario] = useState({});
+	const [tem, setTem] = useState([]);
 	useEffect(() => {
 		/* tomamos los datos del usuario que ha iniciado sesión */
 		setUsuarioFirebase(firebase.auth.currentUser);
@@ -15,6 +17,11 @@ const Sidebar = (props) => {
 		/* invocamos la consulta */
 		getDocUsuario(firebase.auth.currentUser.uid);
 	}, []);
+	useEffect(() => {
+		const reference = firebase.xd.ref('/Sensores').on('value', querySnapShot => {
+			setTem(querySnapShot.val() ? querySnapShot.val() : {})
+		});
+	}, [setTem])
 
 	const getDocUsuario = async (uid) => {
 		try {
@@ -28,6 +35,7 @@ const Sidebar = (props) => {
 					id: snapshot.id,
 				});
 			}
+
 		} catch (e) {
 			console.warn(e.toString());
 		}
@@ -107,6 +115,26 @@ const Sidebar = (props) => {
 									fontWeight: 'bold'
 								}}>
 								{docUsuario.email}
+							</Text>
+							<Text
+								style={{
+									fontSize: 13,
+									marginBottom: 5,
+									color: '#fff',
+									fontWeight: 'bold'
+								}}>
+								Humedad:{tem.humedad} %
+
+							</Text>
+							<Text
+								style={{
+									fontSize: 13,
+									marginBottom: 5,
+									color: '#fff',
+									fontWeight: 'bold'
+								}}>
+								Temperatura:{tem.temperatura}°C
+
 							</Text>
 						</View>
 					</View>
