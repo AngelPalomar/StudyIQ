@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
 	ImageBackground,
 	Text,
@@ -6,8 +6,10 @@ import {
 	View,
 	Image
 } from 'react-native';
+import AppModal from './AppModal'
+import firebase from '../database/firebase'
 
-const Usuario = ({ datosUsuario }) => {
+const Usuario = (props) => {
 	//console.log(datosUsuario);
 
 	/** Object Destructuring */
@@ -15,109 +17,138 @@ const Usuario = ({ datosUsuario }) => {
 	De convertir en variables/constantes las claves de un objeto
 	*/
 	const {
-		first_name,
-		last_name,
-		email,
+		id,
+		apellidos,
+		nombres,
+		autor,
 		avatar,
-	} = datosUsuario;
+		imagenUrl,
+		texto,
+		fechaSubida
+	} = props.datosUsuario;
+
+	const [opciones, setOpciones] = useState(false)
+	const [pregunta, setPregunta] = useState(false)
+
+	//función para eliminar una publicacion
+	const eliminarPublicacion = async () => {
+		try {
+			const eliminar = await firebase.db
+				.collection('publicaciones')
+				.doc(id)
+				.delete().then(() => {
+					console.log("Borrado")
+				})
+
+			//Recarga los post
+			props.recargar()
+		} catch (error) {
+			console.warn(error.toString())
+		}
+	}
 
 	return (
-		<TouchableOpacity>
-			<View
-				style={{
-					backgroundColor: '#FAFAFF',
-					padding: 20,
-					borderRadius: 10,
-					marginBottom: 15,
-					flex: 1,
-					shadowColor: "#000",
-					shadowOffset: {
-						width: 0,
-						height: 1.5,
-					},
-					shadowOpacity: 0.5,
-					shadowRadius: 3,
+		<View
+			style={{
+				backgroundColor: '#FAFAFF',
+				padding: 20,
+				borderRadius: 10,
+				marginBottom: 15,
+				marginHorizontal: 15,
+				shadowColor: "#000",
+				shadowOffset: {
+					width: 0,
+					height: 1.5,
+				},
+				shadowOpacity: 0.5,
+				shadowRadius: 3,
 
-					elevation: 3,
-				}}
-			>
-				<View style={{ flexDirection: 'row' }}>
-					<View
+				elevation: 3,
+			}}>
+			<View style={{
+				flexDirection: 'row',
+				justifyContent: 'space-between',
+			}}>
+				<View
+					style={{
+						flexDirection: 'row',
+						alignItems: 'center',
+						justifyContent: 'center',
+					}}>
+					<ImageBackground
+						source={{ uri: avatar }}
 						style={{
-							flex: 3,
-							alignItems: 'flex-start',
-							justifyContent: 'center',
+							width: 50,
+							height: 50,
+							borderRadius: 5,
+							overflow: 'hidden',
 						}}
-					>
-						<ImageBackground
-							source={{ uri: avatar }}
-							style={{
-								width: 50,
-								height: 50,
-								borderRadius: 25,
-								overflow: 'hidden',
-							}}
-						/>
-					</View>
-
+					/>
 					<View
 						style={{
-							flex: 11,
 							marginLeft: 10,
 							justifyContent: 'center',
-						}}
-					>
+						}} >
 						<Text
 							style={{
-								fontSize: 16,
+								fontSize: 14,
 								fontWeight: '900',
-							}}
-						>
-							{`${first_name} ${last_name}`}
+							}}>
+							{`${nombres} ${apellidos}`}
 						</Text>
 						<Text
 							style={{
 								marginTop: 1,
 								color: '#535353',
+								fontSize: 10
 							}}>
-							{email}
+							{fechaSubida.toString()}
 						</Text>
 
 					</View>
+				</View>
 
-					<View
-						style={{
-							flex: 3,
-							alignItems: 'flex-end',
-							justifyContent: 'space-between',
-						}}>
-						<TouchableOpacity
+				{
+					autor === firebase.auth.currentUser.email && (
+						<View
 							style={{
-								backgroundColor: '#fff',
-								padding: 10,
-								margin: 5,
-								borderRadius: 20,
+								alignItems: 'flex-end',
+								justifyContent: 'space-between',
 							}}>
-							<Image
-								source={require('../../assets/images/save.png')}
-								style={{
-									width: 15,
-									height: 15,
+							<TouchableOpacity
+								onPress={() => {
+									setOpciones(!opciones)
+									setPregunta(false)
 								}}
-							>
-							</Image>
-						</TouchableOpacity>
-					</View>
-				</View>
-				{// xd					
+								style={{
+									backgroundColor: '#fff',
+									padding: 5,
+									margin: 5,
+									borderRadius: 20,
+								}}>
+								<Image
+									source={require('../../assets/images/more-512.png')}
+									style={{
+										width: 15,
+										height: 15,
+									}}
+								>
+								</Image>
+							</TouchableOpacity>
+						</View>
+					)
 				}
-				<View style={{ flexDirection: 'row' }}>
-					<Text style={{
-						marginVertical: 10,
-					}}>
-						Hola mundo en diferentes lenguajes
+			</View>
+			<View style={{ flexDirection: 'row' }}>
+				<Text style={{
+					marginTop: 10,
+					marginBottom: imagenUrl ? 10 : 0,
+					fontSize: 15
+				}}>
+					{texto}
 				</Text>
-				</View>
+			</View>
+			{imagenUrl ?
 				<View style={{
 					flexDirection: 'row',
 					justifyContent: 'center',
@@ -129,7 +160,7 @@ const Usuario = ({ datosUsuario }) => {
 							borderRadius: 20,
 						}}>
 						<Image
-							source={{ uri: 'https://instagram.fqro1-1.fna.fbcdn.net/v/t51.2885-15/fr/e15/s1080x1080/120664818_108077857733699_994194970376000551_n.jpg?tp=1&_nc_ht=instagram.fqro1-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=O3rh1Dbe9WsAX86RlsP&oh=8ef00908e8d13a9877aa85f383557e93&oe=60724E97' }}
+							source={{ uri: imagenUrl }}
 							style={{
 								width: 200,
 								height: 200,
@@ -137,12 +168,54 @@ const Usuario = ({ datosUsuario }) => {
 							}}>
 						</Image>
 					</TouchableOpacity>
-				</View>
-			</View>
-			{// xd
+				</View> : null
 			}
-
-		</TouchableOpacity>
+			{
+				opciones && (
+					<View style={{
+						alignItems: 'center',
+						marginTop: 20
+					}}>
+						<TouchableOpacity
+							onPress={() =>
+								props.cambiarAEditar()}>
+							<Text style={{ color: '#273469' }}>Editar publicación</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							onPress={() => setPregunta(true)}>
+							<Text style={{ color: '#FF0033' }}>Eliminar publicación</Text>
+						</TouchableOpacity>
+					</View>
+				)
+			}
+			{
+				pregunta && (
+					<View style={{
+						alignItems: 'center',
+						marginTop: 20
+					}}>
+						<Text>¿Estas seguro?</Text>
+						<View style={{
+							flexDirection: 'row',
+							alignItems: 'center',
+							marginTop: 20
+						}}>
+							<TouchableOpacity
+								onPress={eliminarPublicacion}
+								style={{
+									marginRight: 20
+								}}>
+								<Text style={{ color: '#273469' }}>SI</Text>
+							</TouchableOpacity>
+							<TouchableOpacity
+								onPress={() => setPregunta(true)}>
+								<Text style={{ color: '#FF0033' }}>NO</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				)
+			}
+		</View>
 	);
 };
 

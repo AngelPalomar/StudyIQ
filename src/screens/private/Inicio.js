@@ -4,9 +4,10 @@ import { SafeAreaView, Text, View, TouchableOpacity, Image } from 'react-native'
 import Snackbar from 'react-native-snackbar-component';
 import firebase from './../../database/firebase';
 import MisDatos from './profile/MisDatos';
-import Buscador from './profile/Buscador';
+import Buscador from '../private/Buscador'
 import Mensajes from './profile/Mensajes';
 import Catalogo from './../private/Catalogo';
+import Asesorias from './VerAsesorias'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 const Tab = createBottomTabNavigator();
 const Inicio = (props) => {
@@ -14,7 +15,7 @@ const Inicio = (props) => {
 	useFocusEffect(() => {
 		props.navigation.dangerouslyGetParent().setOptions({
 			title: 'Inicio',
-			
+
 		});
 	});
 	useEffect(() => {
@@ -51,26 +52,8 @@ const Inicio = (props) => {
 					component={Catalogo}
 					options={{
 						tabBarIcon: () => (
-						<Image
-						source={require('../../../assets/images/house1.png')}
-						style={{
-							width: 40,
-							height: 40,
-							alignSelf: 'center',
-							marginVertical: 15,
-							overflow: 'hidden',
-						}}
-					></Image>
-						),
-					}}
-				/>
-					<Tab.Screen
-						name='Buscador'
-						component={Buscador}
-						options={{
-							tabBarIcon: () => (
-								<Image
-								source={require('../../../assets/images/user.png')}
+							<Image
+								source={require('../../../assets/images/home-512.png')}
 								style={{
 									width: 30,
 									height: 30,
@@ -79,28 +62,64 @@ const Inicio = (props) => {
 									overflow: 'hidden',
 								}}
 							></Image>
-							),
-						}}
-					/>
+						),
+					}}
+				/>
+				<Tab.Screen
+					name='Buscador'
+					component={Buscador}
+					options={{
+						tabBarIcon: () => (
+							<Image
+								source={require('../../../assets/images/search-512.png')}
+								style={{
+									width: 30,
+									height: 30,
+									alignSelf: 'center',
+									marginVertical: 15,
+									overflow: 'hidden',
+								}}
+							></Image>
+						),
+					}}
+				/>
 				<Tab.Screen
 					name='Mensajes'
 					component={Mensajes}
 					options={{
 						tabBarIcon: () => (
 							<Image
-							source={require('../../../assets/images/messenger.png')}
-							style={{
-								width: 30,
-								height: 30,
-								alignSelf: 'center',
-								marginVertical: 15,
-								overflow: 'hidden',
-							}}
-						></Image>
+								source={require('../../../assets/images/chat-512.png')}
+								style={{
+									width: 30,
+									height: 30,
+									alignSelf: 'center',
+									marginVertical: 15,
+									overflow: 'hidden',
+								}}
+							></Image>
 						),
 					}}
 				/>
 
+				<Tab.Screen
+					name='VerAsesorias'
+					component={Asesorias}
+					options={{
+						tabBarIcon: () => (
+							<Image
+								source={require('../../../assets/images/student-512.png')}
+								style={{
+									width: 30,
+									height: 30,
+									alignSelf: 'center',
+									marginVertical: 15,
+									overflow: 'hidden',
+								}}
+							></Image>
+						),
+					}}
+				/>
 
 				<Tab.Screen
 					name='MisDatos'
@@ -108,15 +127,15 @@ const Inicio = (props) => {
 					options={{
 						tabBarIcon: () => (
 							<Image
-							source={require('../../../assets/images/draw.png')}
-							style={{
-								width: 22,
-								height: 22,
-								alignSelf: 'center',
-								marginVertical: 15,
-								overflow: 'hidden',
-							}}
-						></Image>
+								source={require('../../../assets/images/draw.png')}
+								style={{
+									width: 22,
+									height: 22,
+									alignSelf: 'center',
+									marginVertical: 15,
+									overflow: 'hidden',
+								}}
+							></Image>
 						),
 					}}
 				/>
