@@ -30,7 +30,7 @@ const addChat = (props) => {
                 //Icono del input 
                 leftIcon={
                     <Image source={require('../../../../assets/images/messenger.png')}
-                        style={{ width: 20, height: 20, alignSelf: 'center', marginVertical: 15, overflow: 'hidden', marginRight: 8,}}></Image>}>
+                        style={{ width: 20, height: 20, alignSelf: 'center', marginVertical: 15, overflow: 'hidden', marginRight: 8, }}></Image>}>
             </Input>
             {/*Usuario de destino */}
             <Input placeholder='ingresa email del destino' value={destino} onChangeText={(text => setDestino(text))}
@@ -39,13 +39,13 @@ const addChat = (props) => {
                         style={{ width: 20, height: 20, alignSelf: 'center', marginVertical: 15, overflow: 'hidden', marginRight: 8, }}></Image>}>
             </Input>
 
-            <TouchableHighlight style = {style.button__main} onPress={() => {
-						createChat
-					}}>
+            <TouchableHighlight style={style.button__main} onPress={
+                createChat
+            }>
 
-				<Text style = {style.text__color}>create chat</Text>
+                <Text style={style.text__color}>create chat</Text>
 
-			</TouchableHighlight > 
+            </TouchableHighlight >
 
             {/* <Button onPress={createChat} title='create chat' /> */}
 

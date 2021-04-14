@@ -36,7 +36,7 @@ Retornar los servicios de firebase
 const db = firebase.firestore();
 const auth = firebase.auth();
 const storage = firebase.storage();
-
+const xd = firebase.database();
 
 /* 
 Generamos una librería reutilizable
@@ -44,5 +44,6 @@ Generamos una librería reutilizable
 export default {
     db,
     auth,
-    storage
+    storage,
+    xd
 };

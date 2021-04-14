@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, Text, View, Image } from 'react-native';
+import { ImageBackground, Text, View, Image, TouchableHighlight } from 'react-native';
 import firebase from './../database/firebase';
 import { DrawerContentScrollView, DrawerItem, } from '@react-navigation/drawer';
-
+import * as Location from "expo-location";
+import styles from '../../styles/login.scss';
+import estilos from '../styles/estilos';
 const Sidebar = (props) => {
-
+	const [position, setPosition] = useState('');
+	const [locationStatus, setLocationStatus] = useState(null);
 	const [usuarioFirebase, setUsuarioFirebase] = useState(
 		{}
 	);
@@ -23,6 +26,10 @@ const Sidebar = (props) => {
 		});
 	}, [setTem])
 
+	useEffect(() => {
+		entryPoint();
+	}, []);
+
 	const getDocUsuario = async (uid) => {
 		try {
 
@@ -40,7 +47,34 @@ const Sidebar = (props) => {
 			console.warn(e.toString());
 		}
 	};
-
+	const getPosition = async () => {
+		try {
+			const { coords } = await Location.getCurrentPositionAsync({});
+			setPosition(coords);
+		} catch (error) {
+			console.log("getPosition -> error", error);
+			setPosition(null);
+		}
+	};
+	const entryPoint = async () => {
+		try {
+			const isEnabled = await Location.enableNetworkProviderAsync();
+			Location.enableNetworkProviderAsync()
+				.then(() => {
+					setLocationStatus('accepted');
+				})
+				.catch(() => {
+					setLocationStatus('rejected');
+				});
+			const { status } = await Location.requestPermissionsAsync();
+			if (status === "granted") {
+				getPosition();
+			}
+		} catch (error) {
+			console.log("getPermissionAndPosition -> error", error);
+		}
+	};
+	console.log(position);
 	return (
 		<View
 			style={{
@@ -50,6 +84,7 @@ const Sidebar = (props) => {
 			<ImageBackground
 				style={{
 					width: '100%',
+					height: '40%',
 					paddingBottom: 30,
 					backgroundColor: '#273469'
 				}}
@@ -136,63 +171,38 @@ const Sidebar = (props) => {
 								Temperatura:{tem.temperatura}°C
 
 							</Text>
+							<Text
+								style={{
+									fontSize: 13,
+									marginBottom: 5,
+									color: '#fff',
+									fontWeight: 'bold'
+								}}>
+								Tu ubicación actual
+						</Text>
+							<Text
+								style={{
+									fontSize: 13,
+									marginBottom: 5,
+									color: '#fff',
+									fontWeight: 'bold'
+								}}>
+								Latitude: {position.latitude}
+							</Text>
+							<Text
+								style={{
+									fontSize: 13,
+									marginBottom: 5,
+									color: '#fff',
+									fontWeight: 'bold'
+								}}>
+								Longitude: {position.longitude}
+							</Text>
+
 						</View>
 					</View>
 				</View>
 			</ImageBackground>
-			<DrawerContentScrollView {...props}>
-				<DrawerItem
-					icon={() => (
-						<Image
-							source={require('../../assets/images/home-512.png')}
-							style={{
-								width: 30,
-								height: 30,
-								alignSelf: 'center',
-								marginVertical: 15,
-								overflow: 'hidden',
-							}}
-						></Image>
-					)}
-					label='Inicio'
-					onPress={() => {
-						props.navigation.navigate(
-							'InicioUser'
-						);
-					}}
-				/>
-
-				<DrawerItem
-					icon={() => (
-						<Image
-							source={require('../../assets/images/user.png')}
-							style={{
-								width: 30,
-								height: 30,
-								alignSelf: 'center',
-								marginVertical: 15,
-								overflow: 'hidden',
-							}}
-						></Image>
-					)}
-					label='Perfíl'
-				/>
-				<DrawerItem
-					icon={() => (
-						<Image
-							source={require('../../assets/images/user.png')}
-							style={{
-								width: 30,
-								height: 30,
-								alignSelf: 'center',
-								marginVertical: 15,
-								overflow: 'hidden',
-							}}
-						></Image>
-					)}
-					label='Subir publicaciones '
-				/>
-			</DrawerContentScrollView>
 		</View>
 	);
 };
