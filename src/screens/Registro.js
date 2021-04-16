@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useRef, useEffect } from 'react';
 import firebase from './../database/firebase';
 import {
 	ActivityIndicator, Alert, Button, ScrollView,Image, Text, TextInput, View, FlatList, RefreshControl, Platform, Picker, TouchableHighlight
@@ -7,6 +7,17 @@ import estilos from '../styles/estilos';
 import DropDownPicker from 'react-native-dropdown-picker';
 import get_error from '../helpers/errores_es_mx';
 import styles from '../../styles/registro.scss';
+import * as Notifications from 'expo-notifications';
+import Constants from 'expo-constants';
+
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+		shouldShowAlert: true,
+		shouldPlaySound: true,
+		shouldSetBadge: true,
+	}),
+});
+
 const Registro = (props) => {
 
 	//Creamos un componente que permita crear un documento usuario en la colección usuarios
@@ -28,6 +39,84 @@ const Registro = (props) => {
 	const [tiHab, setTiHab] = useState(true);
 	const [paises, setPaises] = useState([]);
 	const [rcVisible, setRcVisible] = useState(true);
+
+	//estados para la notificaciones 
+	const [expoPushToken, setExpoPushToken] = useState('');
+	const [notification, setNotification] = useState(false);
+	const notificationListener = useRef(); //recibir
+	const responseListener = useRef(); //enviar
+	//funcion para obtener el token 
+	const registerForPushNotificationsAsync = async () => {
+		let token; //Inicializamos un token vacío
+
+		//Solo aplicamos las notificaciones a dispositivos físicos
+		if (Constants.isDevice) {
+			//Pedimos permiso
+			const {
+				status: existingEstatus,
+			} = await Notifications.getPermissionsAsync();
+			let finalStatus = existingEstatus;
+			if (existingEstatus !== 'granted') {
+				const {
+					status,
+				} = await Notifications.requestPermissionsAsync();
+				finalStatus = status;
+			}
+
+			if (finalStatus !== 'granted') {
+				Alert.alert(
+					'ERROR',
+					'Se requiere el permiso'
+				);
+				return;
+			}
+
+			//Tomamos el token  que nos genere el servicio
+			token = (
+				await Notifications.getExpoPushTokenAsync()
+			).data;
+		
+		}
+
+		//Si no estamos en un dispositivo real
+		else {
+			Alert.alert(
+				'ERROR',
+				'Notificaciones push sólo disponibles en dispositivos físicos'
+			);
+		}
+
+		//Si el dispositivo es Android, indicar que usaremos
+		//el canal de distribución estandar (default)
+		if (Platform.OS === 'android') {
+			Notifications.setNotificationChannelAsync(
+				'default',
+				{
+					name: 'default',
+					importance:
+						Notifications.AndroidImportance.MAX,
+					vibrationPattern: [0, 250, 250, 250],
+					lightColor: '#FF231f7c',
+				}
+			);
+		}
+		return token;
+	};
+	useEffect(() => {
+		registerForPushNotificationsAsync().then((token) =>
+			setExpoPushToken(token)
+		);
+
+		notificationListener.current = Notifications.addNotificationReceivedListener(
+			(notification) => setNotification(notification)
+		);
+
+		return () =>
+			Notifications.removeNotificationSubscription(
+				notificationListener
+			);
+	}, []);
+
 
 	//La palabra reservada await indica que el contenido de una variable/constante está en espera de ser recibido
 	const getPaisessAsync = async () => {
@@ -135,7 +224,7 @@ const Registro = (props) => {
 				);
 			});
 			//Agregamos el usuario en la colecion usuarios
-			const usuarioFS = await firebase.db.collection('usuarios').add({...inputs,authId:usuarioFirebase.user.uid});
+			const usuarioFS = await firebase.db.collection('usuarios').add({...inputs,authId:usuarioFirebase.user.uid,token:expoPushToken});
 			Alert.alert(
 				'Se registro correctamente a ', `${inputs.nombres},¿Desea ir al login?`,
 				[{ text: 'Si', onPress: () => { props.navigation.navigate('Login') } },
