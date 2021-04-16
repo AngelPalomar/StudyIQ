@@ -331,7 +331,7 @@ const Registro = (props) => {
 				/>
 				<DropDownPicker
 					zIndex={1001}
-					items={[{ label: 'Maestro', value: 'Maestro' }, { label: 'Estudiante', value: 'Estudiante' }]}
+					items={[{ label: 'Maestro', value: 'Maestro' }, { label: 'Alumno', value: 'Alumno' }]}
 					containerStyle={{ height: 40 }}
 					containerStyle={styles.dropdown}
 					style={styles.dropdown__style}
