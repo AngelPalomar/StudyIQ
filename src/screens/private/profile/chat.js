@@ -50,10 +50,10 @@ const chat = ({ route }) => {
             const usuario = await firebase.db.collection('usuarios')
                 .where('email', '==', docUsuario.email)
                 .get()
-
             if (!usuario.empty) {
                 const docUsuario = usuario.docs[0].data()
                 setTokenfinal(docUsuario);
+
             }
         }
     }
@@ -115,36 +115,6 @@ const chat = ({ route }) => {
         return token;
     };
 
-    const sendPushNotification = async (token) => {
-        console.log('object')
-        console.log(token)
-        const message = {
-            to: token,
-            sound: 'default',
-            title: firebase.auth.currentUser.email,
-            body: input,
-            data: {
-                autor: tokenfinal.nombres,
-                autorEmail: firebase.auth.currentUser.email,
-            },
-        };
-
-        /*
-        Invocamos al servicio
-        */
-        await fetch(
-            'https://exp.host/--/api/v2/push/send',
-            {
-                method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Accept-encoding': 'gzip, deflate',
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(message),
-            }
-        );
-    };
     //Se egrega los mensajes dentro del chat 
     const sendMensajes = async () => {
         Keyboard.dismiss();
@@ -156,8 +126,33 @@ const chat = ({ route }) => {
                     email: firebase.auth.currentUser.email,
                     putoxd: firebase.auth.currentUser.photoURL,
                 });
-                    sendPushNotification(tokenfinal.token)
-                
+                const message = {
+                    to: tokenfinal.token,
+                    sound: 'default',
+                    title: firebase.auth.currentUser.email,
+                    body: input,
+                    data: {
+                        autor: tokenfinal.nombres,
+                        autorEmail: firebase.auth.currentUser.email,
+                    },
+                };
+        
+                /*
+                Invocamos al servicio
+                */
+                await fetch(
+                    'https://exp.host/--/api/v2/push/send',
+                    {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            'Accept-encoding': 'gzip, deflate',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(message),
+                    }
+                );
+
         } catch (error) {
             console.log(error)
         }
@@ -176,13 +171,10 @@ const chat = ({ route }) => {
                         data: doc.data()
                     }))
                 ))
+        getUsuario()
         return unsubscribe;
     }, [route])
-    //Query que retorna el usuario
-    useEffect(() => {
-        //Guarda el usuario
-        getUsuario()
-    }, []);
+    //Query que retorna el usuario;
 
     useEffect(() => {
         registerForPushNotificationsAsync().then((token) =>
